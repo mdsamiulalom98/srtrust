@@ -209,87 +209,99 @@
                                                 <a href="{{route('customer.order_track')}}"> <i class="fa fa-truck"></i> Order Track</a>
                                             </li> --}}
                                     @if (Auth::guard('customer')->user())
-                                        <a href="{{ route('customer.account') }}">
+                                        <a href="{{ route('customer.account') }}" class="account-button">
                                             <i class="fa-regular fa-user"></i>
                                             {{ Str::limit(Auth::guard('customer')->user()->name, 14) }}
                                         </a>
                                     @else
-                                        <a href="{{ route('customer.login') }}">
+                                        <a class="login-button" href="{{ route('customer.login') }}">
                                             <i class="fa-regular fa-user"></i>
                                             <div class="account-text-wrapper">
-                                                <span class="account-login-span">Login</span>
-                                                <span class="account-signup-span">Sign Up</span>
+                                                <span class="account-login-span">Sign In</span>
+                                                <span class="account-signup-span">Register</span>
                                             </div>
                                         </a>
                                         </li>
                                     @endif
 
-                                    <li class="cart-dialog" id="cart-qty">
+                                    <div class="cart-dialog" id="cart-qty">
                                         <a href="{{ route('customer.checkout') }}">
                                             <p class="margin-shopping">
                                                 <i class="fa-solid fa-cart-shopping"></i>
-                                                <span
-                                                    class="cart-count-circle">{{ Cart::instance('shopping')->count() }}</span>
+                                                @if (Cart::instance('shopping')->content()->count() > 0)
+                                                    <span
+                                                        class="cart-count-circle">{{ Cart::instance('shopping')->count() }}</span>
+                                                @endif
                                             </p>
                                         </a>
-                                        <div class="cshort-summary">
-                                            <ul>
-                                                @foreach (Cart::instance('shopping')->content() as $key => $value)
-                                                    <li>
-                                                        <a href=""><img
-                                                                src="{{ asset($value->options->image) }}"
-                                                                alt="" /></a>
-                                                    </li>
-                                                    <li><a href="">{{ Str::limit($value->name, 30) }}</a>
-                                                    </li>
-                                                    <li>Qty: {{ $value->qty }}</li>
-                                                    <li>
-                                                        <p>৳{{ $value->price }}</p>
-                                                        <button class="remove-cart cart_remove"
-                                                            data-id="{{ $value->rowId }}"><i
-                                                                data-feather="x"></i></button>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                            <p><strong>SubTotal : ৳{{ $subtotal }}</strong></p>
-                                            <a href="{{ route('customer.checkout') }}" class="go_cart"
-                                                style="color:white !important;">Process To Order </a>
-                                        </div>
+                                        @if (Cart::instance('shopping')->content()->count() > 0)
+                                            <div class="cshort-summary">
+                                                <ul>
+                                                    @foreach (Cart::instance('shopping')->content() as $key => $value)
+                                                        <li>
+                                                            <a href=""><img
+                                                                    src="{{ asset($value->options->image) }}"
+                                                                    alt="" /></a>
+                                                        </li>
+                                                        <li><a href="">{{ Str::limit($value->name, 30) }}</a>
+                                                        </li>
+                                                        <li>Qty: {{ $value->qty }}</li>
+                                                        <li>
+                                                            <p>৳{{ $value->price }}</p>
+                                                            <button class="remove-cart cart_remove"
+                                                                data-id="{{ $value->rowId }}"><i
+                                                                    data-feather="x"></i></button>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                                <p><strong>SubTotal : ৳{{ $subtotal }}</strong></p>
+                                                <a href="{{ route('customer.checkout') }}" class="go_cart"
+                                                    style="color:white !important;">Process To Order </a>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <!-- lang options -->
+                                    <div class="lang-wrapper">
+                                        <button type="button">
+                                            {{ Session::get('locale') == 'en' ? '🇺🇸 EN' : '🇧🇩 BN' }}
+                                            🇺🇸 EN / English
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--logo area end -->
-            <div class="menu-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="catagory_menu">
-                                <ul>
-                                    <li class="cat_bar ">
-                                        <a href="{{ route('home') }}"> Home </a>
-                                    </li>
-                                    <li class="cat_bar ">
-                                        <a href="{{ route('category', 'combo-offer') }}"> Combo Offer </a>
-                                    </li>
-                                    <li class="cat_bar ">
-                                        <a href="{{ route('blogs') }}"> News Feed</a>
-                                    </li>
-                                    <li class="cat_bar ">
-                                        <a href="{{ route('recent_view') }}"> Recent View</a>
-                                    </li>
-                                </ul>
+                <!--logo area end -->
+                <div class="menu-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="catagory_menu">
+                                    <ul>
+                                        <li class="cat_bar ">
+                                            <a href="{{ route('home') }}"> Home </a>
+                                        </li>
+                                        <li class="cat_bar ">
+                                            <a href="{{ route('category', 'combo-offer') }}"> Combo Offer </a>
+                                        </li>
+                                        <li class="cat_bar ">
+                                            <a href="{{ route('blogs') }}"> News Feed</a>
+                                        </li>
+                                        <li class="cat_bar ">
+                                            <a href="{{ route('recent_view') }}"> Recent View</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- menu area end -->
-        </div>
-        <!-- main-header end -->
+                <!-- menu area end -->
+            </div>
+            <!-- main-header end -->
     </header>
     <div id="content">
         @yield('content')

@@ -417,9 +417,42 @@ svg {
 .header-list-items {
     text-align: center;
     margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
-
-
+.header-list-items a.login-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.header-list-items a.login-button i {
+    font-size: 1rem;
+}
+.header-list-items a.account-button {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 140px;
+}
+.account-text-wrapper {
+    display: flex;
+    gap: 20px;
+    font-size: .875rem;
+}
+span.account-login-span {
+    position: relative;
+}
+span.account-login-span::after {
+    height: 18px;
+    content: '';
+    position: absolute;
+    background-color: #b9b9b9;
+    width: 2px;
+    top: 2px;
+    right: -11px;
+}
 
 .for_order a i {
     font-size: 16px !important;
@@ -439,6 +472,20 @@ svg {
 
 #cart-qty {
     position: relative;
+}
+
+span.cart-count-circle {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    background-color: red;
+    line-height: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    border-radius: 50px;
+    height: 16px;
+    min-width: 16px;
 }
 
 .cshort-summary {
@@ -3666,7 +3713,7 @@ button.cart-change-button {
     margin-bottom: 1rem;
 }
 
-.section-title h3 a {
+.flash-sale-wrapper h3 a {
     font-size: 1rem;
     text-transform: capitalize;
     font-family: 'Exo 2', sans-serif;
