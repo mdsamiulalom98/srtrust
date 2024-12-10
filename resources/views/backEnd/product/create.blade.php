@@ -1,5 +1,5 @@
 @extends('backEnd.layouts.master')
-@section('title', 'Product Create') 
+@section('title', 'Product Create')
 @section('css')
 <style>
     .increment_btn,
@@ -33,12 +33,25 @@
                     <form action="{{ route('products.store') }}" method="POST" class="row" data-parsley-validate=""
                         enctype="multipart/form-data">
                         @csrf
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group mb-3">
                                 <label for="name" class="form-label">Product Name *</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                     name="name" value="{{ old('name') }}" id="name" required />
                                 @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- col-end -->
+                        <div class="col-sm-6">
+                            <div class="form-group mb-3">
+                                <label for="name_bn" class="form-label">Product Name (Bangla) *</label>
+                                <input type="text" class="form-control @error('name_bn') is-invalid @enderror"
+                                    name="name_bn" value="{{ old('name_bn') }}" id="name_bn" required />
+                                @error('name_bn')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

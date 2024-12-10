@@ -41,6 +41,19 @@
                                 </div>
                             </div>
                             <!-- col-end -->
+                            <div class="col-sm-12">
+                                <div class="form-group mb-3">
+                                    <label for="name_bn" class="form-label">Name (Bangla)*</label>
+                                    <input type="text" class="form-control @error('name_bn') is-invalid @enderror"
+                                        name="name_bn" value="{{ old('name_bn') }}" id="name_bn" required="">
+                                    @error('name_bn')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- col-end -->
 
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">

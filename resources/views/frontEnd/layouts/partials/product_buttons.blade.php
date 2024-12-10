@@ -13,7 +13,8 @@
                 <button class="cart-change-button" data-id="{{ $value->id }}" data-action="increase">
                     <i class="fa fa-plus"></i>
                 </button>
-                <div class="cart-quantity" data-id="{{ $value->id }}">{{ $item->qty }}</div>
+                <div class="cart-quantity" data-id="{{ $value->id }}">
+                    {{ Session::get('locale') == 'bn' ? $numto->bnNum($item->qty) : $item->qty }}</div>
                 <button class="cart-change-button" data-id="{{ $value->id }}" data-action="decrease">
                     <i class="fa fa-minus"></i>
                 </button>

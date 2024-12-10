@@ -34,12 +34,25 @@
                             enctype="multipart/form-data" name="editForm">
                             @csrf
                             <input type="hidden" value="{{ $edit_data->id }}" name="id" />
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group mb-3">
                                     <label for="name" class="form-label">Product Name *</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         name="name" value="{{ $edit_data->name }}" id="name" required="" />
                                     @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- col-end -->
+                            <div class="col-sm-6">
+                                <div class="form-group mb-3">
+                                    <label for="name_bn" class="form-label">Product Name (Bangla)*</label>
+                                    <input type="text" class="form-control @error('name_bn') is-invalid @enderror"
+                                        name="name_bn" value="{{ $edit_data->name_bn }}" id="name_bn" required="" />
+                                    @error('name_bn')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -161,7 +174,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                
+
                                 <div class="product_img">
                                     @foreach ($edit_data->images as $image)
                                         <img src="{{ asset($image->image) }}" class="edit-image border"
@@ -202,7 +215,7 @@
                                     @enderror
                                 </div>
                             </div>
-                           
+
                             <!-- col-end -->
 
                             @if ($edit_data->type == 0)
@@ -467,7 +480,7 @@
                                             </div>
                                         </div>
                                         <!-- col end -->
-                                        
+
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label for="pro_barcodes" class="form-label">Product Barcode </label>
@@ -582,7 +595,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            
+
                                         <div class="col-sm-8 ">
                                             <div class="form-group">
                                                 <label for="images">Color Image </label>

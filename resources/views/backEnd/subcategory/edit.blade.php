@@ -6,7 +6,7 @@
 @endsection
 @section('content')
 <div class="container-fluid">
-    
+
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -17,8 +17,8 @@
                 <h4 class="page-title">Subcategory Edit</h4>
             </div>
         </div>
-    </div>       
-    <!-- end page title --> 
+    </div>
+    <!-- end page title -->
    <div class="row justify-content-center">
     <div class="col-lg-8">
         <div class="card">
@@ -26,7 +26,7 @@
                 <form action="{{route('subcategories.update')}}" method="POST" class="row" data-parsley-validate="" name="editForm"  enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" value="{{$edit_data->id}}" name="id">
-                    
+
 
                     <div class="col-sm-12">
                         <div class="form-group mb-3">
@@ -71,7 +71,7 @@
                             @enderror
                         </div>
                     </div>
-                    
+
                     <div class="col-sm-12">
                         <div class="form-group mb-3">
                             <label for="meta_description" class="form-label">Meta Description (Optional)</label>
@@ -83,6 +83,22 @@
                             @enderror
                         </div>
                     </div>
+                    <!-- col end -->
+
+                    <div class="col-sm-12 mb-3">
+                        <div class="form-group">
+                            <label for="image" class="form-label">Image *</label>
+                            <input type="file" class="form-control @error('image') is-invalid @enderror"
+                                name="image" value="{{ $edit_data->image }}" id="image">
+                            <img src="{{ asset($edit_data->image) }}" alt="" class="edit-image">
+                            @error('image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <!-- col end -->
                     <div class="col mb-3">
                         <div class="form-group">
                             <label for="status" class="d-block">Status</label>
@@ -98,9 +114,9 @@
                         </div>
                     </div>
                     <!-- col end -->
-                    
-                    
-                    
+
+
+
                     <div>
                         <input type="submit" class="btn btn-success" value="Submit">
                     </div>
@@ -125,7 +141,7 @@
 <script src="{{asset('public/backEnd/')}}/assets/libs//summernote/summernote-lite.min.js"></script>
 <script>
     $(".summernote").summernote({
-        placeholder: "Enter Your Text Here",    
+        placeholder: "Enter Your Text Here",
     });
 </script>
 

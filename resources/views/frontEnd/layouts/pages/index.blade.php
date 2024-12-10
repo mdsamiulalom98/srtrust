@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="{{ asset('public/frontEnd/css/owl.theme.default.min.css') }}" />
 @endpush
 @section('content')
+    @php
+        $lang = Session::get('locale');
+    @endphp
     <section class="slider-section">
         <div class="container-fluid">
             <div class="row">
@@ -25,14 +28,23 @@
                         <div class="vertical-menu">
                             <ul>
                                 @foreach ($maincategories as $key => $category)
-                                    <li><a href="{{ route('category', $category->slug) }}"><img
-                                                src="{{ asset($category->image) }}" alt="">
-                                            {{ $category->name }}</a>
+                                    <li>
+                                        <a class="{{ $lang == 'bn' ? 'bangla' : '' }}"
+                                            href="{{ route('category', $category->slug) }}">
+                                            <div>
+                                                <img src="{{ asset($category->image) }}" alt="">
+                                                @lang('category.name' . $category->id)
+                                            </div>
+                                            @if ($category->subcategories->count() > 0)
+                                                <i class="fa fa-chevron-right"></i>
+                                            @endif
+                                        </a>
                                         @if ($category->subcategories->count() > 0)
                                             <ul class="vertical-sub">
                                                 @foreach ($category->subcategories as $subcategory)
-                                                    <li><a
-                                                            href="{{ route('subcategory', $subcategory->slug) }}">{{ $subcategory->name }}</a>
+                                                    <li><a href="{{ route('subcategory', $subcategory->slug) }}">
+                                                            <img src="{{ asset($subcategory->image) }}" alt="">
+                                                            {{ $subcategory->name }}</a>
                                                         <ul class="vertical-child">
                                                             @foreach ($subcategory->childcategories as $key => $childcat)
                                                                 <li><a
@@ -65,6 +77,7 @@
         </div>
     </section>
     <!-- slider end -->
+    {{--
     <div class="home-category">
         <div class="container-fluid">
             <div class="row">
@@ -92,7 +105,7 @@
             </div>
         </div>
     </div>
-
+    --}}
 
     <section class="homeproduct">
         <div class="container-fluid">
@@ -111,6 +124,34 @@
                 <div class="col-sm-12">
                     <div class="product_slider hot__deals_slider owl-carousel">
                         @foreach ($hotdeal_top as $key => $value)
+                            <div class="product_item wist_item">
+                                @include('frontEnd.layouts.partials.product')
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="homeproduct">
+        <div class="container-fluid">
+
+            <div class="new-arrival-wrapper">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h3> <a href="{{ route('bestdeals') }}"> New Arrival </a></h3>
+
+
+                        <div class="see-all"> <a href="{{ route('bestdeals') }}" class="">See more <i
+                                    class="fa fa-long-arrow-right"></i></a></div>
+
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="product_slider new-arrival-slider owl-carousel">
+                        @foreach ($new_arrivals as $key => $value)
                             <div class="product_item wist_item">
                                 @include('frontEnd.layouts.partials.product')
                             </div>
@@ -180,6 +221,30 @@
             });
 
             $(".hot__deals_slider").owlCarousel({
+                margin: 15,
+                items: 6,
+                loop: true,
+                dots: false,
+                autoplay: false,
+                autoplayTimeout: 6000,
+                autoplayHoverPause: true,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 2,
+                        nav: false,
+                    },
+                    600: {
+                        items: 4,
+                        nav: false,
+                    },
+                    1000: {
+                        items: 6,
+                        nav: false,
+                    },
+                },
+            });
+            $(".new-arrival-slider").owlCarousel({
                 margin: 15,
                 items: 6,
                 loop: true,

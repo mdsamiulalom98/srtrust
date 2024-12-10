@@ -174,11 +174,11 @@
             </div>
         </div>
         <div class="mobile-search main-search">
-            <form action="{{ route('search') }}">
-
-                <input type="text" placeholder="Search Product..." value=""
-                    class="msearch_click msearch_keyword" name="keyword" />
+            <form >
                 <button><i data-feather="search"></i></button>
+
+                <input type="search" placeholder="Search Product..." value=""
+                    class="msearch_click msearch_keyword" name="keyword" />
             </form>
             <div class="search_result"></div>
         </div>
@@ -187,7 +187,7 @@
         <!-- main header start -->
         <div class="main-header">
             <div class="logo-area">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="logo-header">
@@ -196,10 +196,10 @@
                                             alt="" /></a>
                                 </div>
                                 <div class="main-search">
-                                    <form action="{{ route('search') }}">
-                                        <input type="text" placeholder="Search Product..."
-                                            class="search_keyword search_click" value="" name="keyword" />
+                                    <form >
                                         <button><i data-feather="search"></i></button>
+                                        <input type="search" placeholder="Search Product..."
+                                            class="search_keyword search_click" value="" name="keyword" />
                                     </form>
                                     <div class="search_result"></div>
                                 </div>
@@ -263,10 +263,14 @@
 
                                     <!-- lang options -->
                                     <div class="lang-wrapper">
-                                        <button type="button">
+                                        <button type="button" data-bs-toggle="dropdown">
                                             {{ Session::get('locale') == 'en' ? '🇺🇸 EN' : '🇧🇩 BN' }}
-                                            🇺🇸 EN / English
+                                            {{-- 🇺🇸 EN / English --}}
                                         </button>
+                                        <ul class="lang-options dropdown-menu">
+                                            <li class="{{ Session::get('locale') == 'bn' ? 'active' : '' }}"><a href="{{ url('locale/bn') }}">🇧🇩 BN / Bangla</a></li>
+                                            <li class="{{ Session::get('locale') == 'en' ? 'active' : '' }}"><a href="{{ url('locale/en') }}">🇺🇸 EN / English</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -462,6 +466,7 @@
         <div class="custom-loader"></div>
     </div>
     <script src="{{ asset('public/frontEnd/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('public/frontEnd/js/popper.min.js') }}"></script>
     <script src="{{ asset('public/frontEnd/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/frontEnd/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('public/frontEnd/js/mobile-menu.js') }}"></script>
@@ -510,7 +515,8 @@
     <!-- quick view end -->
     <!-- cart js start -->
     <script>
-        $(".addcartbutton").on("click", function() {
+        $(document).on('click', '.addcartbutton', function(e) {
+            e.preventDefault();
             var id = $(this).data("id");
             const targetElement = $(`.product-item-${id}`);
             var qty = 1;
@@ -530,6 +536,7 @@
                 });
             }
         });
+        
         $(".cart_store").on("click", function() {
             var id = $(this).data("id");
             var qty = $(this).parent().find("input").val();
@@ -876,29 +883,24 @@
     </script>
     <script>
         $(document).ready(function() {
-            // Use event delegation to handle dynamically rendered buttons
             $(document).on('click', '.cart-change-button', function(e) {
                 e.preventDefault();
 
-                // Get the product ID and action (increase or decrease)
                 const productId = $(this).data('id');
                 const action = $(this).data('action');
-                const quantityElement = $(`.cart-quantity[data-id="${productId}"]`);
-                // Make an AJAX request to update the cart
+                const targetElement = $(`.product-item-${productId}`);
                 $.ajax({
-                    url: '{{ route('cart.update') }}', // Replace with your update cart endpoint
+                    url: '{{ route('cart.update') }}',
                     type: 'POST',
                     data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'), // Include CSRF token
+                        _token: $('meta[name="csrf-token"]').attr('content'),
                         product_id: productId,
-                        action: action, // 'increase' or 'decrease'
+                        action: action,
                     },
                     success: function(response) {
                         if (response.success) {
-                            // Update the quantity displayed
-                            quantityElement.text(response.new_quantity);
-
-                            // Optionally, update other parts of the UI (e.g., total price)
+                            targetElement.html(response.updatedHtml);
+                            return cart_count() + mobile_cart();
                         } else {
                             alert(response.message || 'Failed to update cart');
                         }

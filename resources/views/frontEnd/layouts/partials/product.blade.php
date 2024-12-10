@@ -1,3 +1,6 @@
+@php
+    $lang = Session::get('locale');
+@endphp
 <div class="product_item_inner">
 
     <div class="pro_img">
@@ -12,7 +15,7 @@
     </div>
     <div class="pro_des">
         <div class="pro_name">
-            <a href="{{ route('product', $value->slug) }}">{{ Str::limit($value->name, 80) }}</a>
+            <a class="{{ $lang == 'bn' ? 'bangla' : '' }}" href="{{ route('product', $value->slug) }}">{{ Str::limit(__('products.name' . $value->id), 70) }}</a>
         </div>
         {{--
         @if ($value->reviews)
@@ -47,17 +50,17 @@
 
         <div class="pro_price">
             @if ($value->variable_count > 0 && $value->type == 0)
-                <p>
-                    ৳ {{ $value->variable->new_price }}
+                <p class="{{ $lang == 'bn' ? 'bangla-number' : '' }}">
+                    ৳ {{ Session::get('locale') == 'bn' ? $numto->bnNum($value->variable->new_price) : $value->variable->new_price }}
                     @if ($value->variable->old_price)
-                        <del>৳ {{ $value->variable->old_price }}</del>
+                        <del>৳ {{ Session::get('locale') == 'bn' ? $numto->bnNum($value->variable->old_price) : $value->variable->old_price }}</del>
                     @endif
                 </p>
             @else
-                <p>
-                    ৳ {{ $value->new_price }}
+                <p class="{{ $lang == 'bn' ? 'bangla-number' : '' }}">
+                    ৳ {{ Session::get('locale') == 'bn' ? $numto->bnNum($value->new_price) : $value->new_price }}
                     @if ($value->old_price)
-                        <del>৳ {{ $value->old_price }}</del>
+                        <del>৳ {{ Session::get('locale') == 'bn' ? $numto->bnNum($value->old_price) : $value->old_price }}</del>
                     @endif
                 </p>
             @endif
@@ -104,7 +107,7 @@
                                     data-action="increase">
                                     <i class="fa fa-plus"></i>
                                 </button>
-                                <div class="cart-quantity" data-id="{{ $value->id }}">{{ $item->qty }}</div>
+                                <div class="cart-quantity" data-id="{{ $value->id }}">{{ Session::get('locale') == 'bn' ? $numto->bnNum($item->qty) : $item->qty }}</div>
                                 <button class="cart-change-button" data-id="{{ $value->id }}"
                                     data-action="decrease">
                                     <i class="fa fa-minus"></i>

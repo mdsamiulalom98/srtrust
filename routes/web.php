@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Frontend\FrontendController;
@@ -43,7 +44,10 @@ use App\Http\Controllers\Admin\DistrictController;
 
 Auth::routes();
 
-
+Route::get('locale/{locale}', function ($locale) {
+    Session::put('locale', $locale);
+    return back();
+});
 
 Route::post('/customer/coupon', [CustomerController::class, 'customer_coupon'])->name('customer.coupon');
 Route::post('/customer/coupon-remove', [CustomerController::class, 'coupon_remove'])->name('customer.coupon_remove');

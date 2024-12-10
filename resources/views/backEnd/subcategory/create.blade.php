@@ -15,7 +15,7 @@
                     <div class="page-title-right">
                         <a href="{{ route('subcategories.index') }}" class="btn btn-primary rounded-pill">Manage</a>
                     </div>
-                    <h4 class="page-title">Subategory Create</h4>
+                    <h4 class="page-title">Subcategory Create</h4>
                 </div>
             </div>
         </div>
@@ -85,6 +85,19 @@
                                     <textarea type="text" class="summernote form-control @error('meta_description') is-invalid @enderror"
                                         name="meta_description" rows="6" value="{{ old('meta_description') }}" id="meta_description"></textarea>
                                     @error('meta_description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- col end -->
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label for="image" class="form-label">Image *</label>
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror "
+                                        name="image" value="{{ old('image') }}" id="image">
+                                    @error('image')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

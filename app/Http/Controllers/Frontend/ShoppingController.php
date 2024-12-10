@@ -168,6 +168,7 @@ class ShoppingController extends Controller
     public function updateCart(Request $request)
     {
         $productId = $request->input('product_id');
+        $productInfo = DB::table('products')->where('id', $productId)->first();
         $action = $request->input('action');
         $cart = Cart::instance('shopping');
         $item = $cart->content()->where('id', $productId)->first();
@@ -176,10 +177,15 @@ class ShoppingController extends Controller
             return response()->json(['success' => false, 'message' => 'Item not found in cart.']);
         }
 
-        // Update the quantity based on the action
-        $newQuantity = $action === 'increase' ? $item->qty + 1 : max($item->qty - 1, 1);
-        $cart->update($item->rowId, $newQuantity);
+        if ($action === 'decrease' && $item->qty === 1) {
+            $cart->remove($item->rowId);
+            $newQuantity = 0;
+        } else {
+            $newQuantity = $action === 'increase' ? $item->qty + 1 : $item->qty - 1;
+            $cart->update($item->rowId, $newQuantity);
+        }
 
-        return response()->json(['success' => true, 'new_quantity' => $newQuantity]);
+        $updatedHtml = view('frontEnd.layouts.partials.product_buttons', ['value' => $productInfo])->render();
+        return response()->json(['success' => true, 'updatedHtml' => $updatedHtml]);
     }
 }
