@@ -25,6 +25,10 @@
 @endpush
 
 @section('content')
+    @php
+        $lang = Session::get('locale');
+    @endphp
+
     <div class="homeproduct main-details-page">
         <div class="container">
             <div class="row">
@@ -80,10 +84,10 @@
                                 <div class="details_right">
                                     <div class="breadcrumb">
                                         <ul>
-                                            <li><a href="{{ url('/') }}">Home</a></li>
+                                            <li><a href="{{ url('/') }}">@lang('common.home')</a></li>
                                             <li><span>/</span></li>
                                             <li><a
-                                                    href="{{ url('/category/' . $details->category->slug) }}">{{ $details->category->name }}</a>
+                                                    href="{{ url('category/' . $details->category->slug) }}">{{ $details->category->name }}</a>
                                             </li>
                                             @if ($details->subcategory)
                                                 <li><span>/</span></li>
@@ -100,14 +104,15 @@
 
                                     <div class="product">
                                         <div class="product-cart">
-                                            <p class="name">{{ $details->name }}</p>
+                                            <p class="name">@lang('products.name' . $details->id)</p>
                                             @if ($details->variable_count > 0 && $details->type == 0)
                                                 <p class="details-price">
                                                     @if ($details->variable->old_price)
                                                         <del>৳ <span
-                                                                class="old_price">{{ $details->variable->old_price }}</span></del>
+                                                                class="old_price">{{ $lang == 'bn' ? $numto->bnNum($details->variable->old_price) : $details->variable->old_price }}
+                                                            </span></del>
                                                     @endif ৳ <span
-                                                        class="new_price">{{ $details->variable->new_price }}</span>
+                                                        class="new_price">{{ $lang == 'bn' ? $numto->bnNum($details->variable->new_price) : $details->variable->new_price }}</span>
                                                 </p>
                                             @else
                                                 <p class="details-price">
@@ -126,7 +131,7 @@
                                                 <a class="all-reviews-button" href="#writeReview">See Reviews</a>
                                             </div>
                                             <div class="product-code">
-                                                <p><span>প্রোডাক্ট কোড: </span>{{ $details->id }}</p>
+                                                <p><span>@lang('common.productcode') </span>{{ $details->id }}</p>
                                             </div>
                                             <form action="{{ route('cart.store') }}" method="POST" name="formName">
                                                 @csrf
@@ -186,7 +191,7 @@
                                                     </div>
                                                 @endif
                                                 <div class="pro_brand">
-                                                    <p>Brand :
+                                                    <p>@lang('common.brand') :
                                                         {{ $details->brand ? $details->brand->name : 'N/A' }}
                                                     </p>
                                                 </div>
@@ -201,7 +206,8 @@
                                                     <div class="col-sm-6">
                                                         @if ($details->type == 1)
                                                             <div class="pro_brand stock">
-                                                                <p><span>Stock : </span> {{ $details->stock }} </p>
+                                                                <p><span>@lang('common.stock') : </span> {{ $lang == 'bn' ? $numto->bnNum($details->stock) : $details->stock }}
+                                                                </p>
                                                             </div>
                                                         @else
                                                             <div class="pro_brand stock"></div>
@@ -211,12 +217,12 @@
                                                 <div class="d-flex single_product col-sm-12">
                                                     <input type="submit" class="btn px-4 add_cart_btn"
                                                         onclick="return sendSuccess();" name="add_cart"
-                                                        value=" কার্টে যোগ করুন  " id="add_cart_btn"
+                                                        value=" @lang('common.addtocart') " id="add_cart_btn"
                                                         @if ($details->type == 1 && $details->stock < 1) disabled @endif />
 
                                                     <input type="submit" class="btn px-4 order_now_btn order_now_btn_m"
                                                         onclick="return sendSuccess();" name="order_now"
-                                                        value=" অর্ডার করুন " id="order_now"
+                                                        value=" @lang('common.orderplace') " id="order_now"
                                                         @if ($details->type == 1 && $details->stock < 1) disabled @endif>
                                                 </div>
                                                 <div class="mt-md-2 mt-2">
@@ -228,22 +234,9 @@
                                                         </a>
                                                     </h4>
                                                 </div>
-                                                <div class="mt-3">
-                                                    <div class="del_charge_area">
-                                                        <table class="table table-bordered">
-                                                            <tbody>
-                                                                @foreach ($shippingcharge as $key => $value)
-                                                                    <tr>
-                                                                        <td>Delivery Charge</td>
-                                                                        <td>{{ $value->name }}</td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
+
                                             </form>
-                                            <button class="details-wishlist wishlist_store"
+                                            <button class="details-wishlist wishlist_store mt-3"
                                                 data-id="{{ $details->id }}"><i data-feather="heart"></i>
                                                 @lang('common.addtowish')</button>
                                         </div>

@@ -51,16 +51,16 @@
         <div class="pro_price">
             @if ($value->variable_count > 0 && $value->type == 0)
                 <p class="{{ $lang == 'bn' ? 'bangla-number' : '' }}">
-                    ৳ {{ Session::get('locale') == 'bn' ? $numto->bnNum($value->variable->new_price) : $value->variable->new_price }}
+                    ৳ {{ $lang == 'bn' ? $numto->bnNum($value->variable->new_price) : $value->variable->new_price }}
                     @if ($value->variable->old_price)
-                        <del>৳ {{ Session::get('locale') == 'bn' ? $numto->bnNum($value->variable->old_price) : $value->variable->old_price }}</del>
+                        <del>৳ {{ $lang == 'bn' ? $numto->bnNum($value->variable->old_price) : $value->variable->old_price }}</del>
                     @endif
                 </p>
             @else
                 <p class="{{ $lang == 'bn' ? 'bangla-number' : '' }}">
-                    ৳ {{ Session::get('locale') == 'bn' ? $numto->bnNum($value->new_price) : $value->new_price }}
+                    ৳ {{ $lang == 'bn' ? $numto->bnNum($value->new_price) : $value->new_price }}
                     @if ($value->old_price)
-                        <del>৳ {{ Session::get('locale') == 'bn' ? $numto->bnNum($value->old_price) : $value->old_price }}</del>
+                        <del>৳ {{ $lang == 'bn' ? $numto->bnNum($value->old_price) : $value->old_price }}</del>
                     @endif
                 </p>
             @endif
@@ -107,7 +107,7 @@
                                     data-action="increase">
                                     <i class="fa fa-plus"></i>
                                 </button>
-                                <div class="cart-quantity" data-id="{{ $value->id }}">{{ Session::get('locale') == 'bn' ? $numto->bnNum($item->qty) : $item->qty }}</div>
+                                <div class="cart-quantity" data-id="{{ $value->id }}">{{ $lang == 'bn' ? $numto->bnNum($item->qty) : $item->qty }}</div>
                                 <button class="cart-change-button" data-id="{{ $value->id }}"
                                     data-action="decrease">
                                     <i class="fa fa-minus"></i>

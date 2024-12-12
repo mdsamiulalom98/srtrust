@@ -82,13 +82,13 @@ class FrontendController extends Controller
     {
         $category = Category::where('status', 1)->first();
         $categories = Category::where('status', 1)->get();
-        $subcategories = Product::where(['category_id' => $category->id])->get();
+        $subcategories = Subcategory::where(['category_id' => $category->id])->get();
         return view('frontEnd.layouts.pages.categories', compact('categories', 'subcategories'));
     }
 
     public function category_item(Request $request)
     {
-        $subcategories = Product::where(['category_id' => $request->id])->get();
+        $subcategories = Subcategory::where(['category_id' => $request->id])->get();
         return view('frontEnd.layouts.ajax.categories', compact('subcategories'))->render();
     }
 

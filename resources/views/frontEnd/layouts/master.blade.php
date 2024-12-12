@@ -74,9 +74,18 @@
         <!-- End Google Tag Manager -->
     @endforeach
 </head>
+@php
+    $lang = Session::get('locale');
+@endphp
 
 <body class="gotop">
-
+    @if ($lang == 'bn')
+        <style>
+            :root {
+                --en-font: "Hind Siliguri", sans-serif;
+            }
+        </style>
+    @endif
     @php $subtotal = Cart::instance('shopping')->subtotal(); @endphp
     <div class="mobile-menu">
         <div class="mobile-menu-logo">
@@ -132,8 +141,15 @@
                     <a href="{{ route('home') }}"> @lang('common.home') </a>
                 </li>
                 <li>
-                    <a href="{{ route('category', 'combo-offer') }}"> Combo Offer </a>
+                    <a href="{{ route('categories') }}"> Categories </a>
                 </li>
+                <li>
+                    <a href=""> New Products </a>
+                </li>
+                <li>
+                    <a href=""> Brands </a>
+                </li>
+
                 <li>
                     <a href="{{ route('blogs') }}"> News Feed</a>
                 </li>
@@ -143,9 +159,7 @@
                 <li>
                     <a href="{{ route('customer.order_track') }}"> Order Track </a>
                 </li>
-                <li>
-                    <a href="{{ route('coupon.view') }}">Coupon </a>
-                </li>
+
                 <li>
                     <a href="{{ route('contact') }}">Contact Us </a>
                 </li>
@@ -219,8 +233,8 @@
                                         <a class="login-button" href="{{ route('customer.login') }}">
                                             <i class="fa-regular fa-user"></i>
                                             <div class="account-text-wrapper">
-                                                <span class="account-login-span">Sign In</span>
-                                                <span class="account-signup-span">Register</span>
+                                                <span class="account-login-span">@lang('common.login')</span>
+                                                <span class="account-signup-span">@lang('common.register')</span>
                                             </div>
                                         </a>
                                         </li>
@@ -256,9 +270,9 @@
                                                         </li>
                                                     @endforeach
                                                 </ul>
-                                                <p><strong>SubTotal : ৳{{ $subtotal }}</strong></p>
+                                                <p><strong>@lang('common.subtotal') : ৳{{ $subtotal }}</strong></p>
                                                 <a href="{{ route('customer.checkout') }}" class="go_cart"
-                                                    style="color:white !important;">Process To Order </a>
+                                                    style="color:white !important;">@lang('common.processorder') </a>
                                             </div>
                                         @endif
                                     </div>
@@ -299,13 +313,16 @@
                                             <a href="{{ route('categories') }}"> @lang('common.categories') </a>
                                         </li>
                                         <li class="cat_bar ">
-                                            <a href="{{ route('category', 'combo-offer') }}"> Combo Offer </a>
+                                            <a href=""> @lang('common.newproducts') </a>
                                         </li>
                                         <li class="cat_bar ">
-                                            <a href="{{ route('blogs') }}"> News Feed</a>
+                                            <a href=""> @lang('common.brands') </a>
                                         </li>
                                         <li class="cat_bar ">
-                                            <a href="{{ route('recent_view') }}"> Recent View</a>
+                                            <a href="{{ route('blogs') }}"> @lang('common.newsfeed')</a>
+                                        </li>
+                                        <li class="cat_bar ">
+                                            <a href="{{ route('recent_view') }}"> @lang('common.recentview')</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -342,7 +359,7 @@
                     <div class="col-sm-3 col-6">
                         <div class="footer-menu">
                             <ul>
-                                <li class="title "><a>Useful Link</a></li>
+                                <li class="title "><a>@lang('common.usefullink')</a></li>
                                 @foreach ($pages as $page)
                                     <li><a
                                             href="{{ route('page', ['slug' => $page->slug]) }}">{{ $page->name }}</a>
@@ -368,7 +385,7 @@
                     <div class="col-sm-3 col-12">
                         <div class="footer-menu">
                             <ul>
-                                <li class="title text-center"><a>Stay Connected</a></li>
+                                <li class="title text-center"><a>@lang('common.stayconnect')</a></li>
                             </ul>
                             <ul class="social_link">
                                 @foreach ($socialicons as $value)
@@ -378,7 +395,7 @@
                                 @endforeach
                             </ul>
                             <ul>
-                                <li class="title text-center mb-0"><a class="mb-0">Download App</a></li>
+                                <li class="title text-center mb-0"><a class="mb-0">@lang('common.downloadapp')</a></li>
                                 <li class="delivery-partner">
                                     <img src="{{ asset('public/frontEnd/images/app.png') }}" alt="">
                                 </li>
@@ -394,7 +411,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="copyright">
-                            <p>Copyright © {{ date('Y') }} {{ $generalsetting->name }}. All rights reserved.
+                            <p>@lang('common.copyright')
                                 Developed By <a href="https://websolutionit.com" target="_blank">Websolution IT</a>
                         </div>
                     </div>

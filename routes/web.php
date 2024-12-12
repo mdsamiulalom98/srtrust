@@ -44,6 +44,14 @@ use App\Http\Controllers\Admin\DistrictController;
 
 Auth::routes();
 
+Route::get('/cc', function () {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return "Cleared!";
+});
+
 Route::get('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
     return back();

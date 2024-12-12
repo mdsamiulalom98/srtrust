@@ -6,7 +6,7 @@
     <div class="categories-page-wrapper">
         <div class="container-fluid">
             <div class="page-title">
-                <h2>All Categories</h2>
+                <h2>@lang('common.allcategories')</h2>
             </div>
 
             <div class="page-content-wrapper">

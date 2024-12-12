@@ -31,7 +31,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="category-breadcrumb d-flex align-items-center">
-                            <a href="{{ route('home') }}">Home</a>
+                            <a href="{{ route('home') }}">@lang('common.home')</a>
                             <span>/</span>
                             <strong>{{ $category->name }}</strong>
                         </div>
