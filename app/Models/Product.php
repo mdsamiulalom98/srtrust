@@ -45,15 +45,19 @@ class Product extends Model
 
     public function variable()
     {
-        return $this->hasOne('App\Models\ProductVariable')->where('stock', '>', 0);
+        return $this->hasOne(ProductVariable::class)->where('stock', '>', 0);
     }
     public function variables()
     {
-        return $this->hasMany('App\Models\ProductVariable')->where('stock', '>', 0);
+        return $this->hasMany(ProductVariable::class)->where('stock', '>', 0);
+    }
+    public function getVariablesSumStockAttribute()
+    {
+        return $this->variables()->sum('stock');
     }
     public function variableimages()
     {
-        return $this->hasMany('App\Models\ProductVariable')->where('stock', '>', 0)->whereNotNull('image');
+        return $this->hasMany(ProductVariable::class)->where('stock', '>', 0)->whereNotNull('image');
     }
 
     public function sizes()

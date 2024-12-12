@@ -57,6 +57,8 @@ Route::get('barcodess', [ProductController::class, 'barcodess'])->name('barcodes
 Route::group(['namespace' => 'Frontend', 'middleware' => ['ipcheck', 'check_refer']], function () {
     Route::get('/', [FrontendController::class, 'index'])->name('home');
     Route::get('/load-more/products', [FrontEndController::class, 'loadproducts'])->name('products.loadmore');
+    Route::get('categories', [FrontendController::class, 'categories'])->name('categories');
+    Route::get('category-item', [FrontendController::class, 'category_item'])->name('category.items');
     Route::get('category/{category}', [FrontendController::class, 'category'])->name('category');
     Route::get('subcategory/{subcategory}', [FrontendController::class, 'subcategory'])->name('subcategory');
     Route::get('products/{slug}', [FrontendController::class, 'products'])->name('products');
@@ -96,6 +98,12 @@ Route::group(['namespace' => 'Frontend', 'middleware' => ['ipcheck', 'check_refe
     Route::get('cart/increment-campaign', [ShoppingController::class, 'cart_increment_camp'])->name('cart.increment_camp');
     Route::get('cart/content-campaign', [ShoppingController::class, 'cart_content_camp'])->name('cart.content_camp');
     Route::post('cart/update', [ShoppingController::class, 'updateCart'])->name('cart.update');
+
+    // wishlist route
+    Route::get('wishlist/store', [ShoppingController::class, 'wishlist_store'])->name('wishlist.store');
+    Route::get('wishlist', [ShoppingController::class, 'wishlist_show'])->name('wishlist.show');
+    Route::get('wishlist/remove', [ShoppingController::class, 'wishlist_remove'])->name('wishlist.remove');
+    Route::get('wishlist/count', [ShoppingController::class, 'wishlist_count'])->name('wishlist.count');
 });
 
 Route::group(['prefix' => 'customer', 'namespace' => 'Frontend', 'middleware' => ['ipcheck', 'check_refer']], function () {
@@ -339,7 +347,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     Route::get('products/update-feature', [ProductController::class, 'update_feature'])->name('products.update_feature');
     Route::get('products/update-status', [ProductController::class, 'update_status'])->name('products.update_status');
     Route::post('products/barcode-update', [ProductController::class, 'barcode_update'])->name('products.barcode_update');
-    Route::get('products/barcode', [ProductController::class,'barcode'])->name('products.barcode');
+    Route::get('products/barcode', [ProductController::class, 'barcode'])->name('products.barcode');
     Route::get('products/purchase-create', [ProductController::class, 'purchase_create'])->name('products.purchase_create');
     Route::post('products/purchase-store', [ProductController::class, 'purchase_store'])->name('products.purchase_store');
     Route::get('products/purchase-list', [ProductController::class, 'purchase_list'])->name('products.purchase');
@@ -486,10 +494,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     Route::post('shipping-charge/destroy', [ShippingChargeController::class, 'destroy'])->name('shippingcharges.destroy');
 
     // district routes
-    Route::get('district/manage', [DistrictController::class,'index'])->name('districts.index');
-    Route::get('district/{id}/edit', [DistrictController::class,'edit'])->name('districts.edit');
-    Route::post('district/update', [DistrictController::class,'update'])->name('districts.update');
-    Route::post('district/charge-update', [DistrictController::class,'district_charge'])->name('districts.charge');
+    Route::get('district/manage', [DistrictController::class, 'index'])->name('districts.index');
+    Route::get('district/{id}/edit', [DistrictController::class, 'edit'])->name('districts.edit');
+    Route::post('district/update', [DistrictController::class, 'update'])->name('districts.update');
+    Route::post('district/charge-update', [DistrictController::class, 'district_charge'])->name('districts.charge');
 
     // backend customer route
     Route::get('customer', [CustomerManageController::class, 'index'])->name('customers.index');

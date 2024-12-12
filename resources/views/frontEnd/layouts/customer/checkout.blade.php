@@ -10,6 +10,7 @@
         $coupon = Session::get('coupon_amount') ? Session::get('coupon_amount') : 0;
         $discount = Session::get('discount') ? Session::get('discount') : 0;
         $cart = Cart::instance('shopping')->content();
+        $customer = Auth::guard('customer')->user();
 
     @endphp
     <div class="container">
@@ -30,7 +31,7 @@
                                             <label for="name"><i class="fa-solid fa-user"></i>আপনার নাম লিখুন *</label>
                                             <input type="text" id="name"
                                                 class="form-control @error('name') is-invalid @enderror" name="name"
-                                                value="{{ old('name') }}" placeholder="" required />
+                                                value="{{ $customer->name ?? old('name') }}" placeholder="" required />
                                             @error('name')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -41,14 +42,13 @@
                                     <!-- col-end -->
                                     <div class="col-sm-12">
                                         <div class="form-group mb-3">
-                                            <label for="phone"><i class="fa-solid fa-phone"></i>
-আপনার নাম্বার লিখুন  *</label>
+                                            <label for="phone"><i class="fa-solid fa-phone"></i> আপনার নাম্বার লিখুন  *</label>
                                             <input type="text" minlength="11" id="number" maxlength="11"
                                                 pattern="0[0-9]+"
                                                 title="please enter number only and 0 must first character"
                                                 title="Please enter an 11-digit number." id="phone"
                                                 class="form-control @error('phone') is-invalid @enderror" name="phone"
-                                                value="{{ old('phone') }}" placeholder="" required />
+                                                value="{{  $customer->phone ?? old('phone') }}" placeholder="" required />
                                             @error('phone')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -59,7 +59,7 @@
                                       <div class="col-sm-12">
                                         <div class="form-group mb-3">
                                             <label for="address">আপনার ঠিকানা লিখুন   *</label>
-                                            <input type="address" id="address" class="form-control @error('address') is-invalid @enderror" name="address" value="{{old('address')}}"  required>
+                                            <input type="address" id="address" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $customer->address ?? old('address')}}"  required>
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -72,7 +72,7 @@
                                         <div class="form-group mb-3">
                                             <!--<label for="district">District *</label>-->
                                             <select id="district"
-                                                class="form-control select2 district @error('district') is-invalid @enderror"
+                                                class="form-control form-select select2 district @error('district') is-invalid @enderror"
                                                 name="district" value="{{ old('district') }}" required>
                                                 <option value="">জেলা</option>
                                                 @foreach ($districts as $key => $district)
@@ -92,7 +92,7 @@
                                         <div class="form-group mb-3">
                                             <!--<label for="area">Upazila/Area *</label>-->
                                             <select id="area"
-                                                class="form-control  area select2 @error('area') is-invalid @enderror"
+                                                class="form-control form-select area select2 @error('area') is-invalid @enderror"
                                                 name="area" required>
                                                 <option value="">উপজেলা / এরিয়া</option>
                                             </select>
@@ -109,7 +109,7 @@
                                             <label id="payment_method">পেমেন্ট মেথড</label>
                                         </div>
                                         <div class="payment-methods">
-                                           
+
                                             <div class="form-check p_cash payment_method" data-id="cod">
                                                 <input class="form-check-input" type="radio" name="payment_method"
                                                     id="inlineRadio1" value="Cash On Delivery" checked required />
@@ -252,7 +252,7 @@
                 </div>
             </div>
             <!-- col end -->
-            
+
 
         </div>
     </div>

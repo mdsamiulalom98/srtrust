@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class ProductVariable extends Model
 {
     use HasFactory;
-    public function product(){
-        return $this->belongsTo(Product::class, 'product_id')->select('id','name','stock','stock_alert','new_price');
+    public function product()
+    {
+        return $this->belongsTo(Product::class)->select('id', 'name', 'stock', 'stock_alert', 'new_price');
     }
     public function image()
     {
-        return $this->belongsTo(Productimage::class, 'product_id')->select('id', 'image', 'product_id')->latest();
+        return $this->belongsTo(Productimage::class)->select('id', 'image', 'product_id')->latest();
     }
 }

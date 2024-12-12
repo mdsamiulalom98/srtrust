@@ -42,9 +42,16 @@
                                         @if ($category->subcategories->count() > 0)
                                             <ul class="vertical-sub">
                                                 @foreach ($category->subcategories as $subcategory)
-                                                    <li><a href="{{ route('subcategory', $subcategory->slug) }}">
-                                                            <img src="{{ asset($subcategory->image) }}" alt="">
-                                                            {{ $subcategory->name }}</a>
+                                                    <li>
+                                                        <a href="{{ route('subcategory', $subcategory->slug) }}">
+                                                            <div>
+                                                                <img src="{{ asset($subcategory->image) }}" alt="">
+                                                                {{ $subcategory->name }}
+                                                            </div>
+                                                            @if ($subcategory->childcategories->count() > 0)
+                                                                <i class="fa fa-chevron-right"></i>
+                                                            @endif
+                                                        </a>
                                                         <ul class="vertical-child">
                                                             @foreach ($subcategory->childcategories as $key => $childcat)
                                                                 <li><a
@@ -76,6 +83,13 @@
             </div>
         </div>
     </section>
+
+    <div>
+        <div class="container-fluid">
+            <marquee class="home-page-marquee" direction="left">
+                অনলাইনে অর্ডার করুন, পন্য হাতে পেয়ে মূল্য পরিশোধ করুন। সারা বাংলাদেশে ক্যাশ অন হোম ডেলিভারি।</marquee>
+        </div>
+    </div>
     <!-- slider end -->
     {{--
     <div class="home-category">
@@ -107,7 +121,7 @@
     </div>
     --}}
 
-    <section class="homeproduct">
+    <section class="homeproduct flash-sale-section">
         <div class="container-fluid">
 
             <div class="flash-sale-wrapper">
@@ -116,7 +130,8 @@
                         <h3> <a href="{{ route('bestdeals') }}"> Flash Sale </a></h3>
                         <div class="offer_timer" id="simple_timer"></div>
 
-                        <div class="see-all"> <a href="{{ route('bestdeals') }}" class="">See more <i
+                        <div class="see-all"> <a href="{{ route('bestdeals') }}" class=""><span
+                                    class="d-none d-sm-inline-block">See more</span> <i
                                     class="fa fa-long-arrow-right"></i></a></div>
 
                     </div>
@@ -173,11 +188,7 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="product_slider" id="loadmore-product">
-                        @foreach ($allproducts as $key => $value)
-                            <div class="product_item wist_item">
-                                @include('frontEnd.layouts.partials.product')
-                            </div>
-                        @endforeach
+                        @include('frontEnd.layouts.pages.loadproducts')
                     </div>
                 </div>
             </div>
@@ -221,7 +232,7 @@
             });
 
             $(".hot__deals_slider").owlCarousel({
-                margin: 15,
+                margin: 16,
                 items: 6,
                 loop: true,
                 dots: false,
@@ -232,6 +243,7 @@
                 responsive: {
                     0: {
                         items: 2,
+                        margin: 8,
                         nav: false,
                     },
                     600: {
@@ -305,13 +317,12 @@
         }
 
         function getScrollTriggerHeight() {
-            return isMobile() ? 1200 : 400;
+            return isMobile() ? 700 : 400;
         }
         $(window).scroll(function() {
             if ($(window).scrollTop() + $(window).height() >= $(document).height() - getScrollTriggerHeight()) {
                 if (!loading) {
                     loading = true;
-                    $('#loading-bar').show();
                     page++;
                     loadMoreProduct(page);
                 }
@@ -326,12 +337,10 @@
                     page: page
                 },
                 success: function(response) {
+                    console.log(response);
                     if (response) {
                         $('#loadmore-product').append(response);
                         loading = false;
-                        $('#loading-bar').hide();
-                    } else {
-                        $('#loading-bar').hide();
                     }
                 }
             });

@@ -11,7 +11,7 @@
     <meta name="twitter:site" content="{{ $details->name }}" />
     <meta name="twitter:title" content="{{ $details->name }}" />
     <meta name="twitter:description" content="{{ $details->meta_description }}" />
-    <meta name="twitter:creator" content="{{$generalsetting->name}}" />
+    <meta name="twitter:creator" content="{{ $generalsetting->name }}" />
     <meta property="og:url" content="{{ route('product', $details->slug) }}" />
     <meta name="twitter:image" content="{{ asset($details->image->image) }}" />
 
@@ -33,47 +33,48 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="position-relative">
-                                @if ($details->old_price)
-                                    <div class="discount">
-                                        <p> @php $discount=(((($details->old_price)-($details->new_price))*100) / ($details->old_price)) @endphp {{ number_format($discount, 0) }}% ছাড়</p>           
-                                    </div>
-                                @endif
-                                @if($details->variableimages->count() > 0)
-                                    <div class="details_slider owl-carousel">
-                                        @foreach ($details->variableimages as $value)
-                                            <div class="dimage_item">
-                                                <img src="{{ asset($value->image) }}" class="block__pic" />
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="indicator_thumb @if ($details->variableimages->count() > 4) thumb_slider owl-carousel @endif">
-                                        @foreach ($details->variableimages as $key => $value)
-                                            <div class="indicator-item" data-id="{{ $key }}">
-                                                <p>{{ $value->name }}</p>
-                                                <img src="{{ asset($value->image) }}" />
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                    @if ($details->old_price)
+                                        <div class="discount">
+                                            <p> @php $discount=(((($details->old_price)-($details->new_price))*100) / ($details->old_price)) @endphp {{ number_format($discount, 0) }}% ছাড়</p>
+                                        </div>
+                                    @endif
+                                    @if ($details->variableimages->count() > 0)
+                                        <div class="details_slider owl-carousel">
+                                            @foreach ($details->variableimages as $value)
+                                                <div class="dimage_item">
+                                                    <img src="{{ asset($value->image) }}" class="block__pic" />
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div
+                                            class="indicator_thumb @if ($details->variableimages->count() > 4) thumb_slider owl-carousel @endif">
+                                            @foreach ($details->variableimages as $key => $value)
+                                                <div class="indicator-item" data-id="{{ $key }}">
+                                                    <p>{{ $value->name }}</p>
+                                                    <img src="{{ asset($value->image) }}" />
+                                                </div>
+                                            @endforeach
+                                        </div>
 
-                                    <!-- normal product image -->
-                                @else
-                                    <div class="details_slider owl-carousel">
-                                        @foreach ($details->images as $value)
-                                            <div class="dimage_item">
-                                                <img src="{{ asset($value->image) }}" class="block__pic" />
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div
-                                        class="indicator_thumb @if ($details->images->count() > 4) thumb_slider owl-carousel @endif">
-                                        @foreach ($details->images as $key => $value)
-                                            <div class="indicator-item" data-id="{{ $key }}">
-                                                <img src="{{ asset($value->image) }}" />
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
+                                        <!-- normal product image -->
+                                    @else
+                                        <div class="details_slider owl-carousel">
+                                            @foreach ($details->images as $value)
+                                                <div class="dimage_item">
+                                                    <img src="{{ asset($value->image) }}" class="block__pic" />
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div
+                                            class="indicator_thumb @if ($details->images->count() > 4) thumb_slider owl-carousel @endif">
+                                            @foreach ($details->images as $key => $value)
+                                                <div class="indicator-item" data-id="{{ $key }}">
+                                                    <img src="{{ asset($value->image) }}" />
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="details_right">
@@ -86,12 +87,13 @@
                                             </li>
                                             @if ($details->subcategory)
                                                 <li><span>/</span></li>
-                                                <li><a href="#">{{ $details->subcategory ? $details->subcategory->name : '' }}</a>
+                                                <li><a
+                                                        href="#">{{ $details->subcategory ? $details->subcategory->name : '' }}</a>
                                                 </li>
                                                 @endif @if ($details->childcategory)
-                                                <li><span>/</span></li>
-                                                    <li> <a href="#">{{ $details->childcategory->name}}</a>
-                                                </li>
+                                                    <li><span>/</span></li>
+                                                    <li> <a href="#">{{ $details->childcategory->name }}</a>
+                                                    </li>
                                                 @endif
                                         </ul>
                                     </div>
@@ -115,23 +117,24 @@
                                                 </p>
                                             @endif
                                             <div class="details-ratting-wrapper">
-                                                   <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
                                                 <span>5.00/5</span>
-                                          <a class="all-reviews-button" href="#writeReview">See Reviews</a>
+                                                <a class="all-reviews-button" href="#writeReview">See Reviews</a>
                                             </div>
                                             <div class="product-code">
-                                                <p><span>প্রোডাক্ট কোড : </spaH>H{{$details->id}}</p>
+                                                <p><span>প্রোডাক্ট কোড: </span>{{ $details->id }}</p>
                                             </div>
                                             <form action="{{ route('cart.store') }}" method="POST" name="formName">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $details->id }}" />
-                                                <input type="hidden" name="category_id" value="{{ $details->category_id }}" />
+                                                <input type="hidden" name="category_id"
+                                                    value="{{ $details->category_id }}" />
                                                 @if ($productcolors->count() > 0)
-                                                    <div class="pro-color" >
+                                                    <div class="pro-color">
                                                         <p class="color-title">Select Color </p>
                                                         <div class="color_inner">
                                                             <div class="size-container">
@@ -147,8 +150,7 @@
                                                                                 class="selector-item_radio emptyalert stock_color stock_check"
                                                                                 required
                                                                                 data-color="{{ $procolor->color }}" />
-                                                                            <label
-                                                                                for="fc-option{{ $procolor->color }}"
+                                                                            <label for="fc-option{{ $procolor->color }}"
                                                                                 class="selector-item_label">{{ $procolor->color }}
                                                                             </label>
                                                                         </div>
@@ -162,7 +164,7 @@
                                                     <div class="pro-size">
                                                         <p class="color-title">Select Size</p>
                                                         <div class="size_inner">
-                                                            
+
                                                             <div class="size-container">
                                                                 <div class="selector">
                                                                     @foreach ($productsizes as $prosize)
@@ -197,24 +199,25 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        @if($details->type == 1)
-                                                        <div class="pro_brand stock">
-                                                            <p><span>Stock : </span> {{$details->stock}} </p>
-                                                        </div>
+                                                        @if ($details->type == 1)
+                                                            <div class="pro_brand stock">
+                                                                <p><span>Stock : </span> {{ $details->stock }} </p>
+                                                            </div>
                                                         @else
-                                                        <div class="pro_brand stock"></div>
+                                                            <div class="pro_brand stock"></div>
                                                         @endif
                                                     </div>
                                                 </div>
                                                 <div class="d-flex single_product col-sm-12">
                                                     <input type="submit" class="btn px-4 add_cart_btn"
                                                         onclick="return sendSuccess();" name="add_cart"
-                                                        value=" কার্টে যোগ করুন  " id="add_cart_btn" @if($details->type == 1 && $details->stock < 1) disabled @endif/>
+                                                        value=" কার্টে যোগ করুন  " id="add_cart_btn"
+                                                        @if ($details->type == 1 && $details->stock < 1) disabled @endif />
 
-                                                    <input type="submit"
-                                                        class="btn px-4 order_now_btn order_now_btn_m"
+                                                    <input type="submit" class="btn px-4 order_now_btn order_now_btn_m"
                                                         onclick="return sendSuccess();" name="order_now"
-                                                        value=" অর্ডার করুন " id="order_now"  @if($details->type == 1 && $details->stock < 1) disabled @endif >
+                                                        value=" অর্ডার করুন " id="order_now"
+                                                        @if ($details->type == 1 && $details->stock < 1) disabled @endif>
                                                 </div>
                                                 <div class="mt-md-2 mt-2">
                                                     <h4 class="font-weight-bold">
@@ -229,17 +232,20 @@
                                                     <div class="del_charge_area">
                                                         <table class="table table-bordered">
                                                             <tbody>
-                                                                 @foreach ($shippingcharge as $key => $value)
-                                                                <tr>
-                                                                    <td>Delivery Charge</td>
-                                                                    <td>{{ $value->name }}</td>
-                                                                </tr>
+                                                                @foreach ($shippingcharge as $key => $value)
+                                                                    <tr>
+                                                                        <td>Delivery Charge</td>
+                                                                        <td>{{ $value->name }}</td>
+                                                                    </tr>
                                                                 @endforeach
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </form>
+                                            <button class="details-wishlist wishlist_store"
+                                                data-id="{{ $details->id }}"><i data-feather="heart"></i>
+                                                @lang('common.addtowish')</button>
                                         </div>
                                     </div>
                                 </div>
@@ -257,154 +263,177 @@
                 <div class="col-sm-12">
                     <div class="details-tab">
                         <ul class="nav nav-tabs" role="tablist">
-                          <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description-tab-pane" type="button" role="tab">Description</button>
-                          </li>
-                          <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review-tab-pane" type="button" role="tab" >Review</button>
-                          </li>
-                          <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="video-tab" data-bs-toggle="tab" data-bs-target="#video-tab-pane" type="button" role="tab">Video</button>
-                          </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
+                                    data-bs-target="#description-tab-pane" type="button"
+                                    role="tab">Description</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="review-tab" data-bs-toggle="tab"
+                                    data-bs-target="#review-tab-pane" type="button" role="tab">Review</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="video-tab" data-bs-toggle="tab"
+                                    data-bs-target="#video-tab-pane" type="button" role="tab">Video</button>
+                            </li>
                         </ul>
                         <div class="tab-content">
-                          <div class="tab-pane fade show active" id="description-tab-pane" role="tabpanel" aria-labelledby="description-tab" tabindex="0">
-                          <div class="description">
-                              {!! $details->description !!}
-                          </div>
-                          </div>
-                          <div class="tab-pane fade" id="review-tab-pane" role="tabpanel" aria-labelledby="review-tab" tabindex="0">
-                              <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="review-inner">
-                                        <div class="review-head">
-                                            <div class="review-title">
-                                                <h4>Reviews ({{ $reviews->count() }})</h4>
-                                                <p>Get specific details about this product from customers who own it.</p>
-                                            </div>
-                                            <div class="review-btn">
-                                                <button type="button"
-                                                    data-bs-toggle="modal" data-bs-target="#review_modal">
-                                                    Give a review
-                                                </button>
-                                            </div>
-                                        </div>
-                                        @if ($reviews->count() > 0)
-                                            <div class="customer-review">
-                                                <div class="row">
-                                                    @foreach ($reviews as $key => $review)
-                                                        <div class="col-sm-12 col-12">
-                                                            <div class="review-card">
-                                                                <p class="reviewer_name"><i data-feather="message-square"></i>
-                                                                    {{ $review->name }}</p>
-                                                                <p class="review_data">
-                                                                    {{ $review->created_at->format('d-m-Y') }}</p>
-                                                                <p class="review_star">{!! str_repeat('<i class="fa-solid fa-star"></i>', $review->ratting) !!}</p>
-                                                                <p class="review_content">{{ $review->review }}</p>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
+                            <div class="tab-pane fade show active" id="description-tab-pane" role="tabpanel"
+                                aria-labelledby="description-tab" tabindex="0">
+                                <div class="description">
+                                    {!! $details->description !!}
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="review-tab-pane" role="tabpanel" aria-labelledby="review-tab"
+                                tabindex="0">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="review-inner">
+                                            <div class="review-head">
+                                                <div class="review-title">
+                                                    <h4>Reviews ({{ $reviews->count() }})</h4>
+                                                    <p>Get specific details about this product from customers who own it.
+                                                    </p>
+                                                </div>
+                                                <div class="review-btn">
+                                                    <button type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#review_modal">
+                                                        Give a review
+                                                    </button>
                                                 </div>
                                             </div>
-                                        @else
-                                        <div class="empty-review">
-                                            <i class="fa fa-clipboard-list"></i>
-                                            <p class="empty-text">This product has no reviews yet. Be the first one to
-                                                Give a review.</p>
-                                        </div>
-                                        @endif
-                                        <div class="modal fade" id="review_modal" tabindex="-1"
-                                            aria-labelledby="review_modalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="review_modalLabel">Give your review</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
+                                            @if ($reviews->count() > 0)
+                                                <div class="customer-review">
+                                                    <div class="row">
+                                                        @foreach ($reviews as $key => $review)
+                                                            <div class="col-sm-12 col-12">
+                                                                <div class="review-card">
+                                                                    <p class="reviewer_name"><i
+                                                                            data-feather="message-square"></i>
+                                                                        {{ $review->name }}</p>
+                                                                    <p class="review_data">
+                                                                        {{ $review->created_at->format('d-m-Y') }}</p>
+                                                                    <p class="review_star">{!! str_repeat('<i class="fa-solid fa-star"></i>', $review->ratting) !!}</p>
+                                                                    <p class="review_content">{{ $review->review }}</p>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <div class="insert-review">
-                                                            @if (Auth::guard('customer')->user())
-                                                                <form action="{{ route('customer.review') }}"
-                                                                    id="review-form" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="product_id"
-                                                                        value="{{ $details->id }}">
-                                                                    <div class="fz-12 mb-2">
-                                                                        <div class="rating">
-                                                                            <label title="Excelent">
-                                                                                ☆
-                                                                                <input required type="radio" name="ratting"
-                                                                                    value="5" />
-                                                                            </label>
-                                                                            <label title="Best">
-                                                                                ☆
-                                                                                <input required type="radio" name="ratting"
-                                                                                    value="4" />
-                                                                            </label>
-                                                                            <label title="Better">
-                                                                                ☆
-                                                                                <input required type="radio" name="ratting"
-                                                                                    value="3" />
-                                                                            </label>
-                                                                            <label title="Very Good">
-                                                                                ☆
-                                                                                <input required type="radio" name="ratting"
-                                                                                    value="2" />
-                                                                            </label>
-                                                                            <label title="Good">
-                                                                                ☆
-                                                                                <input required type="radio" name="ratting"
-                                                                                    value="1" />
-                                                                            </label>
+                                                </div>
+                                            @else
+                                                <div class="empty-review">
+                                                    <i class="fa fa-clipboard-list"></i>
+                                                    <p class="empty-text">This product has no reviews yet. Be the first one
+                                                        to
+                                                        Give a review.</p>
+                                                </div>
+                                            @endif
+                                            <div class="modal fade" id="review_modal" tabindex="-1"
+                                                aria-labelledby="review_modalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="review_modalLabel">Give your
+                                                                review</h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="insert-review">
+                                                                @if (Auth::guard('customer')->user())
+                                                                    <form action="{{ route('customer.review') }}"
+                                                                        id="review-form" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="product_id"
+                                                                            value="{{ $details->id }}">
+                                                                        <div class="fz-12 mb-2">
+                                                                            <div class="rating">
+                                                                                <label title="Excelent">
+                                                                                    ☆
+                                                                                    <input required type="radio"
+                                                                                        name="ratting" value="5" />
+                                                                                </label>
+                                                                                <label title="Best">
+                                                                                    ☆
+                                                                                    <input required type="radio"
+                                                                                        name="ratting" value="4" />
+                                                                                </label>
+                                                                                <label title="Better">
+                                                                                    ☆
+                                                                                    <input required type="radio"
+                                                                                        name="ratting" value="3" />
+                                                                                </label>
+                                                                                <label title="Very Good">
+                                                                                    ☆
+                                                                                    <input required type="radio"
+                                                                                        name="ratting" value="2" />
+                                                                                </label>
+                                                                                <label title="Good">
+                                                                                    ☆
+                                                                                    <input required type="radio"
+                                                                                        name="ratting" value="1" />
+                                                                                </label>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
 
-                                                                    <div class="form-group">
-                                                                        <label for="message-text"
-                                                                            class="col-form-label">Message:</label>
-                                                                        <textarea required class="form-control radius-lg" name="review" id="message-text"></textarea>
-                                                                        <span id="validation-message"
-                                                                            style="color: red;"></span>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <button class="details-review-button"
-                                                                            type="submit">Submit
-                                                                            Review</button>
-                                                                    </div>
+                                                                        <div class="form-group">
+                                                                            <label for="message-text"
+                                                                                class="col-form-label">Message:</label>
+                                                                            <textarea required class="form-control radius-lg" name="review" id="message-text"></textarea>
+                                                                            <span id="validation-message"
+                                                                                style="color: red;"></span>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <button class="details-review-button"
+                                                                                type="submit">Submit
+                                                                                Review</button>
+                                                                        </div>
 
-                                                                </form>
-                                                            @else
-                                                                <form action="{{route('customer.signin')}}" method="POST"  data-parsley-validate="">
-                                                                @csrf
-                                                                <input type="hidden" name="review" value="1">
-                                                                <h6 class="mb-3">Please login first</h6>
-                                                                <div class="form-group mb-3">
-                                                                    <label for="phone" class="mb-3">Mobile Number *</label>
-                                                                    <input type="number" id="phone" class="form-control @error('phone') is-invalid @enderror"  placeholder="Enter your mobile number" name="phone" value="{{ old('phone') }}"  required>
-                                                                    @error('phone')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <!-- col-end -->
-                                                                <div class="form-group mb-3">
-                                                                    <label for="password" class="mb-3">Password *</label>
-                                                                    <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter your password" name="password" value="{{ old('password') }}"  required>
-                                                                    @error('password')
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <!-- col-end -->
-                                                                <div class="form-group mb-3">
-                                                                    <button class="submit-btn"> Login </button>
-                                                                </div>
-                                                             <!-- col-end -->
-                                                             </form>
-                                                            @endif
+                                                                    </form>
+                                                                @else
+                                                                    <form action="{{ route('customer.signin') }}"
+                                                                        method="POST" data-parsley-validate="">
+                                                                        @csrf
+                                                                        <input type="hidden" name="review"
+                                                                            value="1">
+                                                                        <h6 class="mb-3">Please login first</h6>
+                                                                        <div class="form-group mb-3">
+                                                                            <label for="phone" class="mb-3">Mobile
+                                                                                Number *</label>
+                                                                            <input type="number" id="phone"
+                                                                                class="form-control @error('phone') is-invalid @enderror"
+                                                                                placeholder="Enter your mobile number"
+                                                                                name="phone"
+                                                                                value="{{ old('phone') }}" required>
+                                                                            @error('phone')
+                                                                                <span class="invalid-feedback" role="alert">
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </span>
+                                                                            @enderror
+                                                                        </div>
+                                                                        <!-- col-end -->
+                                                                        <div class="form-group mb-3">
+                                                                            <label for="password" class="mb-3">Password
+                                                                                *</label>
+                                                                            <input type="password" id="password"
+                                                                                class="form-control @error('password') is-invalid @enderror"
+                                                                                placeholder="Enter your password"
+                                                                                name="password"
+                                                                                value="{{ old('password') }}" required>
+                                                                            @error('password')
+                                                                                <span class="invalid-feedback" role="alert">
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </span>
+                                                                            @enderror
+                                                                        </div>
+                                                                        <!-- col-end -->
+                                                                        <div class="form-group mb-3">
+                                                                            <button class="submit-btn"> Login </button>
+                                                                        </div>
+                                                                        <!-- col-end -->
+                                                                    </form>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -413,16 +442,16 @@
                                     </div>
                                 </div>
                             </div>
-                          </div>
-                          <div class="tab-pane fade" id="video-tab-pane" role="tabpanel" aria-labelledby="video-tab" tabindex="0">
-                              <div class="pro_vide">
-                                <iframe width="100%" height="315"
-                                    src="https://www.youtube.com/embed/{{ $details->pro_video }}" title="YouTube video player"
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen></iframe>
+                            <div class="tab-pane fade" id="video-tab-pane" role="tabpanel" aria-labelledby="video-tab"
+                                tabindex="0">
+                                <div class="pro_vide">
+                                    <iframe width="100%" height="315"
+                                        src="https://www.youtube.com/embed/{{ $details->pro_video }}"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                </div>
                             </div>
-                          </div>
                         </div>
                     </div>
                 </div>
@@ -467,9 +496,9 @@
         </div>
     </section>
 
-    @endsection 
+@endsection
 
-    @push('script')
+@push('script')
     <script src="{{ asset('public/frontEnd/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('public/frontEnd/js/zoomsl.min.js') }}"></script>
     <script>
@@ -559,7 +588,7 @@
     </script>
 
     <!-- Data Layer End-->
-    
+
     <script>
         $(document).ready(function() {
             $(".related_slider").owlCarousel({
@@ -589,7 +618,7 @@
             // $('.owl-nav').remove();
         });
     </script>
-    
+
     <script>
         $(document).ready(function() {
             $(".recent_slider").owlCarousel({
@@ -619,8 +648,8 @@
             // $('.owl-nav').remove();
         });
     </script>
-    
-    
+
+
     <script>
         $(document).ready(function() {
             $(".minus").click(function() {
@@ -727,8 +756,8 @@
         });
     </script>
 
- <!--Microdata -->
-<script type="application/ld+json">
+    <!--Microdata -->
+    <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"Product",
@@ -757,6 +786,5 @@
     "value": "{{$details->name}}"
   }]
 }
-</script> 
-
+</script>
 @endpush

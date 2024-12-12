@@ -16,6 +16,11 @@ class ShoppingController extends Controller
 
     public function addTocartGet($id, Request $request)
     {
+        $otherInstanceItems = Cart::instance('wishlist')->content();
+        if ($otherInstanceItems->contains('id', $id)) {
+            $rowId = $otherInstanceItems->firstWhere('id', $id)->rowId;
+            Cart::instance('wishlist')->remove($rowId);
+        }
         $qty = 1;
         $productInfo = DB::table('products')->where('id', $id)->first();
         $productImage = DB::table('productimages')->where('product_id', $id)->first();
@@ -187,5 +192,57 @@ class ShoppingController extends Controller
 
         $updatedHtml = view('frontEnd.layouts.partials.product_buttons', ['value' => $productInfo])->render();
         return response()->json(['success' => true, 'updatedHtml' => $updatedHtml]);
+    }
+
+    // wishlist script
+    public function wishlist_store(Request $request)
+    {
+        $product = Product::where(['id' => $request->id])->select('id', 'name', 'name_bn', 'new_price', 'purchase_price')->first();
+        Cart::instance('wishlist')->add([
+            'id' => $product->id,
+            'name' => $product->name,
+            'qty' => 1,
+            'price' => $product->new_price,
+            'weight' => 1,
+            'options' => ['image' => $product->image->image, 'purchase_price' => $product->purchase_price, 'name_bn' => $product->name_bn,]
+        ]);
+        $data['data'] = $product;
+
+        return response()->json(['success' => true, 'data' => $data]);
+    }
+    public function wishlist_show()
+    {
+        $wishlistItems = Cart::instance('wishlist')->content();
+
+        if ($wishlistItems->isNotEmpty()) {
+            $productIds = $wishlistItems->pluck('id')->all();
+
+            $products = Product::whereIn('id', $productIds)
+                ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
+                ->with(['variable'])
+                ->get();
+
+            $wishlistDetails = $wishlistItems->map(function ($item) use ($products) {
+                $product = $products->firstWhere('id', $item->id);
+                return [
+                    'wishlist_item' => $item,
+                    'product' => $product,
+                ];
+            });
+        } else {
+            $wishlistDetails = [];
+        }
+        return view('frontEnd.layouts.pages.wishlist', compact('products'));
+    }
+    public function wishlist_remove(Request $request)
+    {
+        $remove = Cart::instance('wishlist')->update($request->id, 0);
+        $data   = Cart::instance('wishlist')->content();
+        return view('frontEnd.layouts.ajax.wishlist', compact('data'));
+    }
+    public function wishlist_count(Request $request)
+    {
+        $data   = Cart::instance('wishlist')->count();
+        return view('frontEnd.layouts.ajax.wishlist_count', compact('data'));
     }
 }

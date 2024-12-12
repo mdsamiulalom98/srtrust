@@ -129,7 +129,7 @@
                     </li>
                 @endif
                 <li>
-                    <a href="{{ route('home') }}"> Home </a>
+                    <a href="{{ route('home') }}"> @lang('common.home') </a>
                 </li>
                 <li>
                     <a href="{{ route('category', 'combo-offer') }}"> Combo Offer </a>
@@ -166,15 +166,17 @@
                             alt="" /></a>
                 </div>
                 <div class="menu-bag">
-                    <a href="{{ route('customer.checkout') }}" class="margin-shopping">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="mobilecart-qty">{{ Cart::instance('shopping')->count() }}</span>
+                    <button class="mobile-search-toggle">
+                        @include('frontEnd.layouts.svg.search')
+                    </button>
+                    <a href="{{ route('wishlist.show') }}" class="margin-shopping">
+                        @include('frontEnd.layouts.svg.wishlist')
                     </a>
                 </div>
             </div>
         </div>
-        <div class="mobile-search main-search">
-            <form >
+        <div class="mobile-search main-search" style="display: none;">
+            <form>
                 <button><i data-feather="search"></i></button>
 
                 <input type="search" placeholder="Search Product..." value=""
@@ -196,7 +198,7 @@
                                             alt="" /></a>
                                 </div>
                                 <div class="main-search">
-                                    <form >
+                                    <form>
                                         <button><i data-feather="search"></i></button>
                                         <input type="search" placeholder="Search Product..."
                                             class="search_keyword search_click" value="" name="keyword" />
@@ -260,6 +262,9 @@
                                             </div>
                                         @endif
                                     </div>
+                                    <a class="wishlist-button" href="{{ route('wishlist.show') }}">
+                                        @include('frontEnd.layouts.svg.wishlist')
+                                    </a>
 
                                     <!-- lang options -->
                                     <div class="lang-wrapper">
@@ -268,8 +273,10 @@
                                             {{-- 🇺🇸 EN / English --}}
                                         </button>
                                         <ul class="lang-options dropdown-menu">
-                                            <li class="{{ Session::get('locale') == 'bn' ? 'active' : '' }}"><a href="{{ url('locale/bn') }}">🇧🇩 BN / Bangla</a></li>
-                                            <li class="{{ Session::get('locale') == 'en' ? 'active' : '' }}"><a href="{{ url('locale/en') }}">🇺🇸 EN / English</a></li>
+                                            <li class="{{ Session::get('locale') == 'bn' ? 'active' : '' }}"><a
+                                                    href="{{ url('locale/bn') }}">🇧🇩 BN / Bangla</a></li>
+                                            <li class="{{ Session::get('locale') == 'en' ? 'active' : '' }}"><a
+                                                    href="{{ url('locale/en') }}">🇺🇸 EN / English</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -285,7 +292,11 @@
                                 <div class="catagory_menu">
                                     <ul>
                                         <li class="cat_bar ">
-                                            <a href="{{ route('home') }}"> Home </a>
+                                            @include('frontEnd.layouts.svg.home')
+                                            <a href="{{ route('home') }}"> @lang('common.home') </a>
+                                        </li>
+                                        <li class="cat_bar ">
+                                            <a href="{{ route('categories') }}"> @lang('common.categories') </a>
                                         </li>
                                         <li class="cat_bar ">
                                             <a href="{{ route('category', 'combo-offer') }}"> Combo Offer </a>
@@ -400,53 +411,39 @@
     <div class="footer_nav">
         <ul>
             <li>
-                <a class="toggle">
-                    <span>
-                        <i class="fa-solid fa-bars"></i>
-                    </span>
-                    <span>Category</span>
+                <a href="{{ route('home') }}">
+                    @include('frontEnd.layouts.svg.home')
                 </a>
             </li>
+            <li>
+                <a class="toggle">
+                    @include('frontEnd.layouts.svg.category')
+                </a>
+            </li>
+            <li class="mobile_cart">
+                <a href="{{ route('customer.checkout') }}">
+                    @include('frontEnd.layouts.svg.cart')
+                    <span class="mobilecart-qty">{{ Cart::instance('shopping')->count() }}</span>
+                </a>
+            </li>
+
 
             <li>
                 <a href="{{ route('contact') }}">
-                    <span>
-                        <i class="fa-solid fa-message"></i>
-                    </span>
-                    <span>Message</span>
+                    <i data-feather="message-square"></i>
                 </a>
             </li>
 
-            <li class="mobile_home">
-                <a href="{{ route('home') }}">
-                    <span><i class="fa-solid fa-home"></i></span> <span>Home</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ route('customer.checkout') }}">
-                    <span>
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </span>
-                    <span>Cart (<b class="mobilecart-qty">{{ Cart::instance('shopping')->count() }}</b>)</span>
-                </a>
-            </li>
             @if (Auth::guard('customer')->user())
                 <li>
                     <a href="{{ route('customer.account') }}">
-                        <span>
-                            <i class="fa-solid fa-user"></i>
-                        </span>
-                        <span>Account</span>
+                        @include('frontEnd.layouts.svg.user')
                     </a>
                 </li>
             @else
                 <li>
                     <a href="{{ route('customer.login') }}">
-                        <span>
-                            <i class="fa-solid fa-user"></i>
-                        </span>
-                        <span>Login</span>
+                        @include('frontEnd.layouts.svg.user')
                     </a>
                 </li>
             @endif
@@ -536,7 +533,7 @@
                 });
             }
         });
-        
+
         $(".cart_store").on("click", function() {
             var id = $(this).data("id");
             var qty = $(this).parent().find("input").val();
@@ -656,6 +653,28 @@
     </script>
     <!-- cart js end -->
     <script>
+        $('.wishlist_store').on('click', function() {
+            var id = $(this).data('id');
+            var qty = $(this).parent().find('input').val();
+            if (id) {
+                $.ajax({
+                    type: "GET",
+                    data: {
+                        'id': id,
+                        'qty': qty ? qty : 1
+                    },
+                    url: "{{ route('wishlist.store') }}",
+                    success: function(data) {
+                        if (data) {
+                            toastr.success('Your product added to wishlist successfully!');
+                            return wishlist_count();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
         $(".search_click").on("keyup change", function() {
             var keyword = $(".search_keyword").val();
             console.log(keyword);
@@ -740,6 +759,10 @@
         $(".mobile-filter-toggle").on("click", function() {
             $("#page-overlay").show();
             $(".feature-products").addClass("active");
+        });
+        $(".mobile-search-toggle").on("click", function() {
+            $(".mobile-search").toggle();
+
         });
     </script>
     <script>

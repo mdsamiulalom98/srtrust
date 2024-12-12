@@ -63,7 +63,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group mb-3">
                                     <label for="category_id" class="form-label">Categories *</label>
-                                    <select
+                                    <select id="category_id"
                                         class="form-control form-select select2 @error('category_id') is-invalid @enderror"
                                         name="category_id" value="{{ old('category_id') }}" required>
                                         <optgroup>

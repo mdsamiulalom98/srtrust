@@ -30,7 +30,8 @@ use App\Models\Blog;
 
 class FrontendController extends Controller
 {
-    public function index()    {
+    public function index()
+    {
 
         $sliders = Banner::where(['status' => 1, 'category_id' => 1])
             ->select('id', 'image', 'link')
@@ -50,7 +51,7 @@ class FrontendController extends Controller
             ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'category_id')
             ->with('variable')
             ->withCount('variable', 'reviews')
-            ->paginate(12);
+            ->paginate(6);
 
         $new_arrivals = Product::where(['status' => 1])
             ->orderBy('id', 'DESC')
@@ -65,16 +66,30 @@ class FrontendController extends Controller
     public function loadproducts(Request $request)
     {
         $page = $request->page;
-        $perPage = 6;
+        $perPage = 2;
 
-        $products = Product::where('status', 1)
+        $allproducts = Product::where('status', 1)
             ->withCount('variable')
             ->orderBy('id', 'DESC')
             ->skip(($page) * $perPage)
             ->take($perPage)
             ->get();
 
-        return view('frontEnd.layouts.pages.loadproducts', compact('products'))->render();
+        return view('frontEnd.layouts.pages.loadproducts', compact('allproducts'))->render();
+    }
+
+    public function categories()
+    {
+        $category = Category::where('status', 1)->first();
+        $categories = Category::where('status', 1)->get();
+        $subcategories = Product::where(['category_id' => $category->id])->get();
+        return view('frontEnd.layouts.pages.categories', compact('categories', 'subcategories'));
+    }
+
+    public function category_item(Request $request)
+    {
+        $subcategories = Product::where(['category_id' => $request->id])->get();
+        return view('frontEnd.layouts.ajax.categories', compact('subcategories'))->render();
     }
 
     public function category($slug, Request $request)
@@ -302,28 +317,45 @@ class FrontendController extends Controller
             ->distinct()
             ->get();
 
-        if (Session::get('recentview') == '') {
-            Session::put('recentview', []);
+        // if (Session::get('recentview') == '') {
+        //     Session::put('recentview', []);
+        // }
+        // $newsession[] = $details->id;
+        // $oldsession   = array_reverse(Session::get('recentview'));
+        // $recentall    = array_merge($newsession, $oldsession);
+        // $recentall    = array_unique($recentall);
+        // $recentall    = array_reverse($recentall);
+        // if (count(Session::get('recentview')) > 9) {
+        //     array_shift($recentall);
+        // }
+        // Session::put('recentview', $recentall);
+        // if (Session::get('recentview')) {
+        //     $recent_products = Product::where(['status' => 1])
+        //         ->whereIn('products.id', Session::get('recentview'))
+        //         ->orderBy('id', 'DESC')
+        //         ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
+        //         ->with('variable')
+        //         ->withCount('variable')->get();
+        // } else {
+        //     $recent_products = [];
+        // }
+
+        $recentView = Session::get('recentview', []);
+        $recentView = array_unique(array_reverse(array_merge([$details->id], array_reverse($recentView))));
+        if (count($recentView) > 9) {
+            array_shift($recentView);
         }
-        $newsession[] = $details->id;
-        $oldsession   = array_reverse(Session::get('recentview'));
-        $recentall    = array_merge($newsession, $oldsession);
-        $recentall    = array_unique($recentall);
-        $recentall    = array_reverse($recentall);
-        if (count(Session::get('recentview')) > 9) {
-            array_shift($recentall);
-        }
-        Session::put('recentview', $recentall);
-        if (Session::get('recentview')) {
-            $recent_products = Product::where(['status' => 1])
-                ->whereIn('products.id', Session::get('recentview'))
-                ->orderBy('id', 'DESC')
-                ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
-                ->with('variable')
-                ->withCount('variable')->get();
-        } else {
-            $recent_products = [];
-        }
+        Session::put('recentview', $recentView);
+        $recent_products = !empty($recentView)
+            ? Product::where('status', 1)
+            ->whereIn('id', $recentView)
+            ->orderByRaw('FIELD(id, ' . implode(',', $recentView) . ')')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
+            ->with(['variable'])
+            ->withCount('variable')
+            ->get()
+            : [];
+
 
         return view('frontEnd.layouts.pages.details', compact('details', 'products', 'shippingcharge', 'productcolors', 'productsizes', 'reviews', 'recent_products'));
     }
