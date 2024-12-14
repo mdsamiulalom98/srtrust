@@ -174,6 +174,12 @@
                     <a class="toggle">
                         <i class="fa-solid fa-bars"></i>
                     </a>
+                    {{-- {{ Session::get('locale') == 'en' ? '🇺🇸 EN' : '🇧🇩 BN' }} --}}
+                    @if (Session::get('locale') == 'en')
+                        <a class="mobile-langs" href="{{ url('locale/bn') }}">🇧🇩 BN</a>
+                    @else
+                        <a class="mobile-langs" href="{{ url('locale/en') }}">🇺🇸 EN</a>
+                    @endif
                 </div>
                 <div class="menu-logo">
                     <a href="{{ route('home') }}"><img src="{{ asset($generalsetting->dark_logo) }}"
@@ -433,7 +439,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('categories') }}" >
+                <a href="{{ route('categories') }}">
                     @include('frontEnd.layouts.svg.category')
                 </a>
             </li>

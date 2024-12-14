@@ -12,6 +12,32 @@
 }
 
 @media only screen and (min-width: 320px) and (max-width: 767px) {
+    a.mobile-langs {
+        padding: 0px 5px;
+        display: inline-block;
+        background-color: var(--secondary-color);
+        color: var(--background-color);
+        border-radius: 5px;
+        line-height: 22px;
+        font-size: 14px;
+    }
+    .cart-info-wrapper {
+        flex-wrap: wrap;
+    }
+    .cart-info-wrapper .image {
+        flex: 0 0 45px;
+        order: 1;
+    }
+
+    .cart-info-wrapper .info {
+        flex: 1 1 auto;
+        order: 3;
+    }
+
+    .cart-info-wrapper .remove {
+        flex: 0 0 40px;
+        order: 1;
+    }
     .marquee-section .container-fluid {
         padding: 0;
     }
@@ -622,7 +648,7 @@
 
     .mobile-logo {
         display: grid;
-        grid-template-columns: 1fr 3fr 1fr;
+        grid-template-columns: 100px 3fr 1fr;
         text-align: center;
         font-size: 16px;
         align-items: center;

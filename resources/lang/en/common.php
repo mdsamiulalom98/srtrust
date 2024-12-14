@@ -85,7 +85,7 @@ return [
     'shipping' => 'Shipping',
     'address' => 'Address',
     'district' => 'Disctict',
-    'area' => 'Area',
+    'area' => 'Upazila',
     'payment' => 'Payment Method',
     'orderplace' => 'Order Place',
     'sendernumber' => 'Sender Number',
@@ -150,4 +150,9 @@ return [
     'whoownit' => 'Get specific details about this product from customers who own it.',
     'description' => 'Description',
     'video' => 'Video',
+    'checkouttitleone' => 'To confirm your order, fill in the details and click the <strong> Order Now </strong> button, or click to order by phone at',
+    'cashondelivery' => 'Cash On Delivery',
+    'bkash' => 'bKash',
+    'orderinfo' => 'Order Information',
+
 ];

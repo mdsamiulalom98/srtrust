@@ -9,11 +9,8 @@
 <table class="cart_table table table-bordered table-striped text-center mb-0">
     <thead>
         <tr>
-            <th style="width: 20%;">
-ডিলিট</th>
-            <th style="width: 40%;">প্রোডাক্ট</th>
-            <th style="width: 20%;">পরিমাণ </th>
-            <th style="width: 20%;">মূল্য</th>
+            <th style="width: 60%;">প্রোডাক্ট</th>
+            <th style="width: 40%;">মূল্য</th>
         </tr>
     </thead>
 
@@ -21,59 +18,68 @@
         @foreach (Cart::instance('shopping')->content() as $value)
             <tr>
                 <td>
-                    <a class="cart_remove" data-id="{{ $value->rowId }}"><i class="fas fa-trash text-danger"></i></a>
-                </td>
-                <td class="text-left">
-                    <a href="{{ route('product', $value->options->slug) }}"> <img
-                            src="{{ asset($value->options->image) }}" />
-                        {{ Str::limit($value->name, 20) }}</a>
-                    @if ($value->options->product_size)
-                        <p>Size: {{ $value->options->product_size }}</p>
-                    @endif
-                    @if ($value->options->product_color)
-                        <p>Color: {{ $value->options->product_color }}</p>
-                    @endif
-                </td>
-                <td class="cart_qty">
-                    <div class="qty-cart vcart-qty">
-                        <div class="quantity">
-                            <button class="minus cart_decrement" data-id="{{ $value->rowId }}">-</button>
-                            <input type="text" value="{{ $value->qty }}" readonly />
-                            <button class="plus cart_increment" data-id="{{ $value->rowId }}">+</button>
+                    <div class="cart-info-wrapper">
+                        <div class="image">
+                            <img src="{{ asset($value->options->image) }}" />
                         </div>
+                        <div class="info">
+                            <a href="{{ route('product', $value->options->slug) }}">
+                                {{ $value->name }}</a>
+                            @if ($value->options->product_size)
+                                <p>Size: {{ $value->options->product_size }}</p>
+                            @endif
+                            @if ($value->options->product_color)
+                                <p>Color: {{ $value->options->product_color }}</p>
+                            @endif
+                            <div class="qty-cart vcart-qty">
+                                <div class="quantity">
+                                    <button class="minus cart_decrement"
+                                        data-id="{{ $value->rowId }}">-</button>
+                                    <input type="text" value="{{ $value->qty }}" readonly />
+                                    <button class="plus cart_increment"
+                                        data-id="{{ $value->rowId }}">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="remove">
+                            <a class="cart_remove" data-id="{{ $value->rowId }}"><i
+                                    class="fas fa-trash text-danger"></i></a>
+                        </div>
+
                     </div>
+
                 </td>
-                <td><span class="alinur">৳ </span><strong>{{ $value->price }}</strong>
+                <td><span>৳ </span><strong>{{ $value->price }}</strong>
                 </td>
             </tr>
         @endforeach
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="3" class="text-end px-4">মোট</th>
+            <th colspan="1" class="text-end px-4">মোট</th>
             <td class="px-4">
-                <span id="net_total"><span class="alinur">৳
+                <span id="net_total"><span>৳
                     </span><strong>{{ $subtotal }}</strong></span>
             </td>
         </tr>
         <tr>
-            <th colspan="3" class="text-end px-4">ডেলিভারি চার্জ    </th>
+            <th colspan="1" class="text-end px-4">ডেলিভারি চার্জ </th>
             <td class="px-4">
-                <span id="cart_shipping_cost"><span class="alinur">৳
+                <span id="cart_shipping_cost"><span>৳
                     </span><strong>{{ $shipping }}</strong></span>
             </td>
         </tr>
         <tr>
-            <th colspan="3" class="text-end px-4">ছাড়</th>
+            <th colspan="1" class="text-end px-4">ছাড়</th>
             <td class="px-4">
-                <span id="cart_shipping_cost"><span class="alinur">৳
+                <span id="cart_shipping_cost"><span>৳
                     </span><strong>{{ $discount + $coupon }}</strong></span>
             </td>
         </tr>
         <tr>
-            <th colspan="3" class="text-end px-4">সর্বমোট </th>
+            <th colspan="1" class="text-end px-4">সর্বমোট</th>
             <td class="px-4">
-                <span id="grand_total"><span class="alinur">৳
+                <span id="grand_total"><span>৳
                     </span><strong>{{ $subtotal + $shipping - ($discount + $coupon) }}</strong></span>
             </td>
         </tr>

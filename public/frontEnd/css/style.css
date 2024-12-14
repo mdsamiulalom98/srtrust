@@ -1116,7 +1116,10 @@ footer {
     align-items: center;
     column-gap: 20px;
 }
-
+.cart_table .qty-cart {
+    justify-content: left;
+    margin-top: 5px;
+}
 .quantity input {
     position: relative;
     text-align: center;
@@ -2182,8 +2185,8 @@ button.submit-btn {
 
 /*====  CHECKOUT CSS START ====  */
 .cartlist img {
-    height: 30px;
-    width: 30px;
+    height: auto;
+    width: 100%;
 }
 
 .cartlist span {
@@ -2202,7 +2205,7 @@ button.submit-btn {
     color: #fff !important;
 }
 h6.check-position strong {
-    color: var(--primary-color);
+    color: var(--secondary-color);
 }
 
 .checkout-shipping h5,
@@ -3969,4 +3972,24 @@ div#wishlist {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+}
+
+
+.cart-info-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.cart-info-wrapper .image {
+    flex: 0 0 60px;
+}
+
+.cart-info-wrapper .info {
+    flex: 1 1 auto;
+    text-align: left
+}
+
+.cart-info-wrapper .remove {
+    flex: 0 0 40px;
 }

@@ -51,7 +51,7 @@ class FrontendController extends Controller
             ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'category_id')
             ->with('variable')
             ->withCount('variable', 'reviews')
-            ->paginate(6);
+            ->paginate(12);
 
         $new_arrivals = Product::where(['status' => 1])
             ->orderBy('id', 'DESC')
@@ -66,7 +66,7 @@ class FrontendController extends Controller
     public function loadproducts(Request $request)
     {
         $page = $request->page;
-        $perPage = 2;
+        $perPage = 4;
 
         $allproducts = Product::where('status', 1)
             ->withCount('variable')

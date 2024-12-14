@@ -316,7 +316,7 @@
         }
 
         function getScrollTriggerHeight() {
-            return isMobile() ? 700 : 400;
+            return isMobile() ? 700 : 500;
         }
         $(window).scroll(function() {
             if ($(window).scrollTop() + $(window).height() >= $(document).height() - getScrollTriggerHeight()) {
