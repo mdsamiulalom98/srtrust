@@ -84,7 +84,7 @@
         </div>
     </section>
 
-    <div>
+    <div class="marquee-section">
         <div class="container-fluid">
             <marquee class="home-page-marquee" direction="left">
                 অনলাইনে অর্ডার করুন, পন্য হাতে পেয়ে মূল্য পরিশোধ করুন। সারা বাংলাদেশে ক্যাশ অন হোম ডেলিভারি।</marquee>
@@ -127,11 +127,11 @@
             <div class="flash-sale-wrapper">
                 <div class="col-sm-12">
                     <div class="section-title">
-                        <h3> <a href="{{ route('bestdeals') }}"> Flash Sale </a></h3>
+                        <h3> <a href="{{ route('bestdeals') }}"> @lang('common.flashsales') </a></h3>
                         <div class="offer_timer" id="simple_timer"></div>
 
                         <div class="see-all"> <a href="{{ route('bestdeals') }}" class=""><span
-                                    class="d-none d-sm-inline-block">See more</span> <i
+                                    class="d-none d-sm-inline-block">@lang('common.seemore')</span> <i
                                     class="fa fa-long-arrow-right"></i></a></div>
 
                     </div>
@@ -156,10 +156,9 @@
             <div class="new-arrival-wrapper">
                 <div class="col-sm-12">
                     <div class="section-title">
-                        <h3> <a href="{{ route('bestdeals') }}"> New Arrival </a></h3>
+                        <h3> <a href="{{ route('bestdeals') }}"> @lang('common.newarrival') </a></h3>
 
-
-                        <div class="see-all"> <a href="{{ route('bestdeals') }}" class="">See more <i
+                        <div class="see-all"> <a href="{{ route('bestdeals') }}" class="">@lang('common.seemore') <i
                                     class="fa fa-long-arrow-right"></i></a></div>
 
                     </div>
@@ -183,7 +182,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="section-title">
-                        <h3><a href="">All Products </a></h3>
+                        <h3><a href=""> @lang('common.allproduct') </a></h3>
                     </div>
                 </div>
                 <div class="col-sm-12">

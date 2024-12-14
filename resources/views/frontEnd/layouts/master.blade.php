@@ -433,7 +433,7 @@
                 </a>
             </li>
             <li>
-                <a class="toggle">
+                <a href="{{ route('categories') }}" >
                     @include('frontEnd.layouts.svg.category')
                 </a>
             </li>

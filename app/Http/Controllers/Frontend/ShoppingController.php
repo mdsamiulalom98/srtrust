@@ -13,7 +13,6 @@ use App\Models\Product;
 
 class ShoppingController extends Controller
 {
-
     public function addTocartGet($id, Request $request)
     {
         $otherInstanceItems = Cart::instance('wishlist')->content();
@@ -39,7 +38,7 @@ class ShoppingController extends Controller
             ]
         ]);
         $updatedHtml = view('frontEnd.layouts.partials.product_buttons', ['value' => $productInfo])->render();
-        // return redirect()->back();
+
         return response()->json([
             'success' => true,
             'cartinfo' => $cartinfo,
@@ -231,6 +230,7 @@ class ShoppingController extends Controller
             });
         } else {
             $wishlistDetails = [];
+            $products = [];
         }
         return view('frontEnd.layouts.pages.wishlist', compact('products'));
     }

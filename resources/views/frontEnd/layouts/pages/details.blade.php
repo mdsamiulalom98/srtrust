@@ -87,7 +87,7 @@
                                             <li><a href="{{ url('/') }}">@lang('common.home')</a></li>
                                             <li><span>/</span></li>
                                             <li><a
-                                                    href="{{ url('category/' . $details->category->slug) }}">{{ $details->category->name }}</a>
+                                                    href="{{ url('category/' . $details->category->slug) }}">@lang('category.name' . $details->category_id)</a>
                                             </li>
                                             @if ($details->subcategory)
                                                 <li><span>/</span></li>
@@ -128,7 +128,7 @@
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                                 <span>5.00/5</span>
-                                                <a class="all-reviews-button" href="#writeReview">See Reviews</a>
+                                                <a class="all-reviews-button" href="#writeReview">@lang('common.seereviews')</a>
                                             </div>
                                             <div class="product-code">
                                                 <p><span>@lang('common.productcode') </span>{{ $details->id }}</p>
@@ -215,12 +215,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex single_product col-sm-12">
-                                                    <input type="submit" class="btn px-4 add_cart_btn"
+                                                    <input type="submit" class="btn  add_cart_btn"
                                                         onclick="return sendSuccess();" name="add_cart"
                                                         value=" @lang('common.addtocart') " id="add_cart_btn"
                                                         @if ($details->type == 1 && $details->stock < 1) disabled @endif />
 
-                                                    <input type="submit" class="btn px-4 order_now_btn order_now_btn_m"
+                                                    <input type="submit" class="btn  order_now_btn order_now_btn_m"
                                                         onclick="return sendSuccess();" name="order_now"
                                                         value=" @lang('common.orderplace') " id="order_now"
                                                         @if ($details->type == 1 && $details->stock < 1) disabled @endif>
@@ -259,15 +259,15 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
                                     data-bs-target="#description-tab-pane" type="button"
-                                    role="tab">Description</button>
+                                    role="tab"> @lang('common.description')</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="review-tab" data-bs-toggle="tab"
-                                    data-bs-target="#review-tab-pane" type="button" role="tab">Review</button>
+                                    data-bs-target="#review-tab-pane" type="button" role="tab">@lang('common.reviews')</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="video-tab" data-bs-toggle="tab"
-                                    data-bs-target="#video-tab-pane" type="button" role="tab">Video</button>
+                                    data-bs-target="#video-tab-pane" type="button" role="tab">@lang('common.video')</button>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -284,14 +284,14 @@
                                         <div class="review-inner">
                                             <div class="review-head">
                                                 <div class="review-title">
-                                                    <h4>Reviews ({{ $reviews->count() }})</h4>
-                                                    <p>Get specific details about this product from customers who own it.
+                                                    <h4>@lang('common.reviews') ({{ $reviews->count() }})</h4>
+                                                    <p>@lang('common.whoownit')
                                                     </p>
                                                 </div>
                                                 <div class="review-btn">
                                                     <button type="button" data-bs-toggle="modal"
                                                         data-bs-target="#review_modal">
-                                                        Give a review
+                                                        @lang('common.givereview')
                                                     </button>
                                                 </div>
                                             </div>
@@ -316,9 +316,7 @@
                                             @else
                                                 <div class="empty-review">
                                                     <i class="fa fa-clipboard-list"></i>
-                                                    <p class="empty-text">This product has no reviews yet. Be the first one
-                                                        to
-                                                        Give a review.</p>
+                                                    <p class="empty-text">@lang('common.noreviewyet') @lang('common.firstone')</p>
                                                 </div>
                                             @endif
                                             <div class="modal fade" id="review_modal" tabindex="-1"
@@ -326,8 +324,7 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="review_modalLabel">Give your
-                                                                review</h1>
+                                                            <h1 class="modal-title fs-5" id="review_modalLabel">@lang('common.givereview')</h1>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
@@ -371,15 +368,14 @@
 
                                                                         <div class="form-group">
                                                                             <label for="message-text"
-                                                                                class="col-form-label">Message:</label>
+                                                                                class="col-form-label">@lang('common.message')</label>
                                                                             <textarea required class="form-control radius-lg" name="review" id="message-text"></textarea>
                                                                             <span id="validation-message"
                                                                                 style="color: red;"></span>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <button class="details-review-button"
-                                                                                type="submit">Submit
-                                                                                Review</button>
+                                                                                type="submit"> @lang('common.submitreview')</button>
                                                                         </div>
 
                                                                     </form>
@@ -389,13 +385,12 @@
                                                                         @csrf
                                                                         <input type="hidden" name="review"
                                                                             value="1">
-                                                                        <h6 class="mb-3">Please login first</h6>
+                                                                        <h6 class="mb-3">@lang('common.loginfirst')</h6>
                                                                         <div class="form-group mb-3">
-                                                                            <label for="phone" class="mb-3">Mobile
-                                                                                Number *</label>
+                                                                            <label for="phone" class="mb-3">@lang('common.mobilenumber') *</label>
                                                                             <input type="number" id="phone"
                                                                                 class="form-control @error('phone') is-invalid @enderror"
-                                                                                placeholder="Enter your mobile number"
+                                                                                placeholder="@lang('common.mobilenumber')"
                                                                                 name="phone"
                                                                                 value="{{ old('phone') }}" required>
                                                                             @error('phone')
@@ -406,11 +401,11 @@
                                                                         </div>
                                                                         <!-- col-end -->
                                                                         <div class="form-group mb-3">
-                                                                            <label for="password" class="mb-3">Password
+                                                                            <label for="password" class="mb-3">@lang('common.password')
                                                                                 *</label>
                                                                             <input type="password" id="password"
                                                                                 class="form-control @error('password') is-invalid @enderror"
-                                                                                placeholder="Enter your password"
+                                                                                placeholder="@lang('common.password')"
                                                                                 name="password"
                                                                                 value="{{ old('password') }}" required>
                                                                             @error('password')
@@ -421,7 +416,7 @@
                                                                         </div>
                                                                         <!-- col-end -->
                                                                         <div class="form-group mb-3">
-                                                                            <button class="submit-btn"> Login </button>
+                                                                            <button class="submit-btn"> @lang('common.login') </button>
                                                                         </div>
                                                                         <!-- col-end -->
                                                                     </form>
@@ -456,7 +451,7 @@
         <div class="container">
             <div class="row">
                 <div class="related-title">
-                    <h5>Related Product</h5>
+                    <h5>@lang('common.relatedproduct')</h5>
                 </div>
             </div>
             <div class="row">
@@ -472,7 +467,7 @@
             </div>
             <div class="row mt-4">
                 <div class="related-title">
-                    <h5>Recent Product</h5>
+                    <h5>@lang('common.recentproduct')</h5>
                 </div>
             </div>
             <div class="row">

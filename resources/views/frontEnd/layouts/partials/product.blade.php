@@ -124,7 +124,7 @@
                             @csrf
                             <input type="hidden" name="id" value="{{ $value->id }}" />
                             <button class="" type="submit">
-                                Buy Now
+                                @lang('common.buynow')
                                 <i class="fa fa-long-arrow-right"></i>
                             </button>
                         </form>
