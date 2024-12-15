@@ -47,48 +47,44 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $data = Product::latest()->select('id','name','category_id','new_price','topsale', 'stock', 'feature_product','type', 'status')->with('image', 'category')->withSum('variables', 'stock');
+        $data = Product::latest()->select('id', 'name', 'category_id', 'new_price', 'topsale', 'stock', 'feature_product', 'type', 'status')->with('image', 'category')->withSum('variables', 'stock');
         if ($request->keyword) {
             $data = $data->where('name', 'LIKE', '%' . $request->keyword . "%");
         }
         $data = $data->paginate(50);
         return view('backEnd.product.index', compact('data'));
     }
-    public function stock_alert(){
-        $products = Product::select('id','name','type','stock','stock_alert')->where('type',1)->where('stock', '<=', DB::raw('stock_alert'))->with('image')->get();
-        $variables = ProductVariable::whereHas('product', function($query) {
+    public function stock_alert()
+    {
+        $products = Product::select('id', 'name', 'type', 'stock', 'stock_alert')->where('type', 1)->where('stock', '<=', DB::raw('stock_alert'))->with('image')->get();
+        $variables = ProductVariable::whereHas('product', function ($query) {
             $query->whereRaw('product_variables.stock <= products.stock_alert');
-        })->with('product','image')
-        ->get();
-        return view('backEnd.product.stock_alert', compact('products','variables'));
+        })->with('product', 'image')
+            ->get();
+        return view('backEnd.product.stock_alert', compact('products', 'variables'));
     }
 
     public function barcode(Request $request)
     {
-        // return $request->all();
-
         if ($request->keyword) {
             $data = Product::select('id', 'name', 'status', 'pro_barcode', 'new_price', 'type')->orderBy('id', 'DESC')->where('name', 'LIKE', '%' . $request->keyword . "%")->with('image', 'variables')->get();
-        }else{
-             $data = Product::select('id', 'name', 'status', 'pro_barcode', 'new_price', 'type')->orderBy('id', 'DESC')->get();
+        } else {
+            $data = Product::select('id', 'name', 'status', 'pro_barcode', 'new_price', 'type')->orderBy('id', 'DESC')->get();
         }
         // return $data;
 
-        if($request->product_id  && $request->type == 1){
-            $barcode = Product::select('id', 'name','slug', 'status', 'pro_barcode', 'new_price', 'type')->where('id', $request->product_id)->first();
+        if ($request->product_id  && $request->type == 1) {
+            $barcode = Product::select('id', 'name', 'slug', 'status', 'pro_barcode', 'new_price', 'type')->where('id', $request->product_id)->first();
             $product = $barcode;
-
-        }elseif($request->product_id && $request->type == 0){
+        } elseif ($request->product_id && $request->type == 0) {
             $barcode = ProductVariable::where('id', $request->product_id)->first();
-            $product = Product::select('id', 'name','slug')->where('id', $barcode->product_id)->first();
-        }else{
+            $product = Product::select('id', 'name', 'slug')->where('id', $barcode->product_id)->first();
+        } else {
             $barcode = NULL;
             $product = NULL;
         }
-        return view('backEnd.product.barcode', compact('data','barcode','product'));
+        return view('backEnd.product.barcode', compact('data', 'barcode', 'product'));
     }
-
-
 
     public function create()
     {
@@ -108,21 +104,19 @@ class ProductController extends Controller
         ]);
 
         $max_id = DB::table('products')->max('id');
-        $max_id = $max_id? $max_id+1 : '1';
+        $max_id = $max_id ? $max_id + 1 : '1';
         $input = $request->except(['image', 'product_type', 'files', 'sizes', 'colors', 'purchase_prices', 'old_prices', 'new_prices', 'stocks', 'images', 'pro_barcodes']);
         $input['slug'] = strtolower(preg_replace('/[\/\s]+/', '-', $request->name . '-' . $max_id));
 
-
-
         $input['status'] = $request->status ? 1 : 0;
         $input['topsale'] = $request->topsale ? 1 : 0;
-        if($request->type == 0){
+        if ($request->type == 0) {
             $input['purchase_price'] = $request->purchase_prices[0];
             $input['old_price'] = $request->old_prices[0];
             $input['new_price'] = $request->new_prices[0];
             $input['stock']     = 0;
-        }else{
-            $input['pro_barcode'] = $request->pro_barcode??$this->barcode_generate();
+        } else {
+            $input['pro_barcode'] = $request->pro_barcode ?? $this->barcode_generate();
         }
         $save_data = Product::create($input);
 
@@ -169,7 +163,7 @@ class ProductController extends Controller
                     $variable->purchase_price = isset($purchase[$key]) ? $purchase[$key] : null;
                     $variable->old_price = isset($old_price[$key]) ? $old_price[$key] : null;
                     $variable->new_price = isset($new_price[$key]) ? $new_price[$key] : null;
-                    $variable->pro_barcode = $pro_barcode[$key]??$this->barcode_generate();
+                    $variable->pro_barcode = $pro_barcode[$key] ?? $this->barcode_generate();
                     $variable->stock = $stock;
                     $variable->image = $imageUrl;
                     $variable->save();
@@ -186,7 +180,7 @@ class ProductController extends Controller
                 }
             }
         }
-        if($request->type == 1){
+        if ($request->type == 1) {
             $parchase                   = new PurchaseDetails();
             $parchase->product_id       = 1;
             $parchase->purchase_price   = $request->purchase_price;
@@ -205,8 +199,8 @@ class ProductController extends Controller
     {
         $edit_data = Product::with('images')->find($id);
         $categories = Category::where('status', 1)->select('id', 'name', 'status')->get();
-        $subcategory = Subcategory::where('category_id', '=', $edit_data->category_id)->select('id', 'name','category_id', 'status')->get();
-        $childcategory = Childcategory::where('subcategory_id', '=', $edit_data->subcategory_id)->select('id', 'name','subcategory_id', 'status')->get();
+        $subcategory = Subcategory::where('category_id', '=', $edit_data->category_id)->select('id', 'name', 'category_id', 'status')->get();
+        $childcategory = Childcategory::where('subcategory_id', '=', $edit_data->subcategory_id)->select('id', 'name', 'subcategory_id', 'status')->get();
         $brands = Brand::where('status', '1')->select('id', 'name', 'status')->get();
         $colors = Color::where('status', '1')->get();
         $sizes = Size::where('status', '1')->get();
@@ -224,7 +218,6 @@ class ProductController extends Controller
 
         $update_data = Product::find($request->id);
         $input = $request->except(['image', 'product_type', 'files', 'sizes', 'colors', 'purchase_prices', 'old_prices', 'new_prices', 'stocks', 'images', 'up_id', 'up_sizes', 'up_colors', 'up_purchase_prices', 'up_old_prices', 'up_new_prices', 'up_stocks', 'up_images', 'pro_barcodes', 'up_pro_barcodes']);
-
 
         $last_id = Product::orderBy('id', 'desc')->select('id')->first();
         $input['slug'] = strtolower(preg_replace('/[\/\s]+/', '-', $request->name . '-' . $update_data->id));
@@ -280,7 +273,7 @@ class ProductController extends Controller
                     $upvariable->purchase_price   = $up_purchase[$key];
                     $upvariable->old_price        = $up_old_price ? $up_old_price[$key] : NULL;
                     $upvariable->new_price        = $up_new_price[$key];
-                    $upvariable->pro_barcode      = $up_pro_barcode?$up_pro_barcode[$key]:NULL;
+                    $upvariable->pro_barcode      = $up_pro_barcode ? $up_pro_barcode[$key] : NULL;
                     $upvariable->stock            = $up_stock[$key];
                     $upvariable->image            = $imageUrl;
                     $upvariable->save();
@@ -323,7 +316,6 @@ class ProductController extends Controller
                     $variable->pro_barcode      = $pro_barcode[$key];
                     $variable->image            = $imageUrl;
                     $variable->save();
-
                 }
             }
         }
@@ -410,20 +402,22 @@ class ProductController extends Controller
         }
     }
 
-    public function purchase_list(){
+    public function purchase_list()
+    {
         $purchase = PurchaseDetails::with('product')->latest()->paginate(100);
-        return view('backEnd.product.purchase_list',compact('purchase'));
+        return view('backEnd.product.purchase_list', compact('purchase'));
     }
-    public function purchase_create(){
+    public function purchase_create()
+    {
         $data = Product::select('id', 'name', 'status', 'new_price', 'type')->latest()->get();
-        return view('backEnd.product.purchase_create',compact('data'));
+        return view('backEnd.product.purchase_create', compact('data'));
     }
     public function purchase_store(Request $request)
     {
-        $product = Product::select('id', 'name','old_price', 'status', 'purchase_price', 'new_price', 'type','stock')->where('id', $request->product_id)->first();
-        if($product->type == 1){
-            $product = Product::select('id', 'name','old_price', 'status', 'purchase_price', 'new_price', 'type')->where('id', $request->product_id)->first();
-            $product->stock =+ $request->qty;
+        $product = Product::select('id', 'name', 'old_price', 'status', 'purchase_price', 'new_price', 'type', 'stock')->where('id', $request->product_id)->first();
+        if ($product->type == 1) {
+            $product = Product::select('id', 'name', 'old_price', 'status', 'purchase_price', 'new_price', 'type')->where('id', $request->product_id)->first();
+            $product->stock = +$request->qty;
             $product->save();
 
             $parchase                   = new PurchaseDetails();
@@ -433,10 +427,9 @@ class ProductController extends Controller
             $parchase->new_price        = $product->new_price;
             $parchase->stock            = $request->qty;
             $parchase->save();
-
-        }else{
+        } else {
             $product = ProductVariable::where('id', $request->product_id)->first();
-            $product->stock =+ $request->qty;
+            $product->stock = +$request->qty;
             $product->save();
 
             $parchase                   = new PurchaseDetails();
@@ -452,18 +445,17 @@ class ProductController extends Controller
         Toastr::success('Success', 'Product purchase successfully');
         return redirect()->back();
     }
-    public function purchase_history($id){
-        $purchase = PurchaseDetails::where('product_id',$id)->with('product')->latest()->get();
-        return view('backEnd.product.purchase_history',compact('purchase'));
+    public function purchase_history($id)
+    {
+        $purchase = PurchaseDetails::where('product_id', $id)->with('product')->latest()->get();
+        return view('backEnd.product.purchase_history', compact('purchase'));
     }
 
-    function barcode_generate(){
+    function barcode_generate()
+    {
         $max_product = DB::table('products')->max(DB::raw('CAST(pro_barcode AS UNSIGNED)'));
         $max_variable = DB::table('product_variables')->max(DB::raw('CAST(pro_barcode AS UNSIGNED)'));
         $max_barcode = max($max_product, $max_variable);
         return $max_barcode ? $max_barcode + 1 : 100001;
     }
-
-
-
 }

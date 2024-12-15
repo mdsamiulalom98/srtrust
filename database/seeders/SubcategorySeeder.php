@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Subcategory;
+use Illuminate\Support\Facades\DB;
 
 class SubcategorySeeder extends Seeder
 {
@@ -15,96 +16,96 @@ class SubcategorySeeder extends Seeder
      */
     public function run()
     {
-        $home_gadgets = \DB::table('categories')->where('slug', 'home-gadgets')->value('id');
-        $health_beauty = \DB::table('categories')->where('slug', 'health-beauty')->value('id');
-        $hot_offer = \DB::table('categories')->where('slug', 'hot-offer')->value('id');
-        $kitchen_gadgets = \DB::table('categories')->where('slug', 'kitchen-gadgets')->value('id');
-        $security = \DB::table('categories')->where('slug', 'security')->value('id');
-        $all_kinds_of_rack = \DB::table('categories')->where('slug', 'all-kinds-of-rack')->value('id');
-        $footware = \DB::table('categories')->where('slug', 'footwear')->value('id');
-        $cream = \DB::table('categories')->where('slug', 'cream')->value('id');
+        $mens_boys = DB::table('categories')->where('slug', "men's-&-boys'-fashion")->value('id');
+        $women_girl = DB::table('categories')->where('slug', "women's-&-girls'-fashion")->value('id');
+        $electronic_acc = DB::table('categories')->where('slug', "electronic-accessories")->value('id');
+        $home_decor = DB::table('categories')->where('slug', 'home-decor')->value('id');
+        $women_cloth = DB::table('categories')->where('slug', 'women-clothing')->value('id');
+        $electronics = DB::table('categories')->where('slug', 'electronics-device')->value('id');
+        $groceries = DB::table('categories')->where('slug', 'groceries')->value('id');
+        $kitchen_home = DB::table('categories')->where('slug', "kitchen-&-home-appliances")->value('id');
 
         // Generate and insert subcategories
-        $home_gadgets_subs = [
-            ['subcategoryName' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $home_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $home_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $home_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $home_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $home_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $home_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $home_gadgets, 'status' => 1],            
+        $mens_boys_subs = [
+            ['name' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $mens_boys, 'status' => 1],
+            ['name' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $mens_boys, 'status' => 1],
+            ['name' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $mens_boys, 'status' => 1],
+            ['name' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $mens_boys, 'status' => 1],
+            ['name' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $mens_boys, 'status' => 1],
+            ['name' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $mens_boys, 'status' => 1],
+            ['name' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $mens_boys, 'status' => 1],
         ];
-        $health_beauty_subs = [
-            ['subcategoryName' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $health_beauty, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $health_beauty, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $health_beauty, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $health_beauty, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $health_beauty, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $health_beauty, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $health_beauty, 'status' => 1],            
+        $women_girl_subs = [
+            ['name' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $women_girl, 'status' => 1],
+            ['name' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $women_girl, 'status' => 1],
+            ['name' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $women_girl, 'status' => 1],
+            ['name' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $women_girl, 'status' => 1],
+            ['name' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $women_girl, 'status' => 1],
+            ['name' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $women_girl, 'status' => 1],
+            ['name' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $women_girl, 'status' => 1],
         ];
-        $hot_offer_subs = [
-            ['subcategoryName' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $hot_offer, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $hot_offer, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $hot_offer, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $hot_offer, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $hot_offer, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $hot_offer, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $hot_offer, 'status' => 1],            
+        $electronic_acc_subs = [
+            ['name' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $electronic_acc, 'status' => 1],
+            ['name' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $electronic_acc, 'status' => 1],
+            ['name' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $electronic_acc, 'status' => 1],
+            ['name' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $electronic_acc, 'status' => 1],
+            ['name' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $electronic_acc, 'status' => 1],
+            ['name' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $electronic_acc, 'status' => 1],
+            ['name' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $electronic_acc, 'status' => 1],
         ];
-        $kitchen_gadgets_subs = [
-            ['subcategoryName' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $kitchen_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $kitchen_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $kitchen_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $kitchen_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $kitchen_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $kitchen_gadgets, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $kitchen_gadgets, 'status' => 1],            
+        $home_decor_subs = [
+            ['name' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $home_decor, 'status' => 1],
+            ['name' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $home_decor, 'status' => 1],
+            ['name' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $home_decor, 'status' => 1],
+            ['name' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $home_decor, 'status' => 1],
+            ['name' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $home_decor, 'status' => 1],
+            ['name' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $home_decor, 'status' => 1],
+            ['name' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $home_decor, 'status' => 1],
         ];
-        $security_subs = [
-            ['subcategoryName' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $security, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $security, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $security, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $security, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $security, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $security, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $security, 'status' => 1],            
+        $women_cloth_subs = [
+            ['name' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $women_cloth, 'status' => 1],
+            ['name' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $women_cloth, 'status' => 1],
+            ['name' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $women_cloth, 'status' => 1],
+            ['name' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $women_cloth, 'status' => 1],
+            ['name' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $women_cloth, 'status' => 1],
+            ['name' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $women_cloth, 'status' => 1],
+            ['name' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $women_cloth, 'status' => 1],
         ];
-        $all_kinds_of_rack_subs = [
-            ['subcategoryName' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $all_kinds_of_rack, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $all_kinds_of_rack, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $all_kinds_of_rack, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $all_kinds_of_rack, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $all_kinds_of_rack, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $all_kinds_of_rack, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $all_kinds_of_rack, 'status' => 1],            
+        $electronics_subs = [
+            ['name' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $electronics, 'status' => 1],
+            ['name' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $electronics, 'status' => 1],
+            ['name' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $electronics, 'status' => 1],
+            ['name' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $electronics, 'status' => 1],
+            ['name' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $electronics, 'status' => 1],
+            ['name' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $electronics, 'status' => 1],
+            ['name' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $electronics, 'status' => 1],
         ];
-        $footware_subs = [
-            ['subcategoryName' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $footware, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $footware, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $footware, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $footware, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $footware, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $footware, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $footware, 'status' => 1],            
+        $groceries_subs = [
+            ['name' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $groceries, 'status' => 1],
+            ['name' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $groceries, 'status' => 1],
+            ['name' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $groceries, 'status' => 1],
+            ['name' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $groceries, 'status' => 1],
+            ['name' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $groceries, 'status' => 1],
+            ['name' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $groceries, 'status' => 1],
+            ['name' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $groceries, 'status' => 1],
         ];
-        $cream_subs = [
-            ['subcategoryName' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $cream, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $cream, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $cream, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $cream, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $cream, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $cream, 'status' => 1],
-            ['subcategoryName' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $cream, 'status' => 1],            
+        $kitchen_home_subs = [
+            ['name' => 'Subcategory 1', 'slug' => 'subcategory-1', 'category_id' => $kitchen_home, 'status' => 1],
+            ['name' => 'Subcategory 2', 'slug' => 'subcategory-2', 'category_id' => $kitchen_home, 'status' => 1],
+            ['name' => 'Subcategory 3', 'slug' => 'subcategory-3', 'category_id' => $kitchen_home, 'status' => 1],
+            ['name' => 'Subcategory 4', 'slug' => 'subcategory-4', 'category_id' => $kitchen_home, 'status' => 1],
+            ['name' => 'Subcategory 5', 'slug' => 'subcategory-5', 'category_id' => $kitchen_home, 'status' => 1],
+            ['name' => 'Subcategory 6', 'slug' => 'subcategory-6', 'category_id' => $kitchen_home, 'status' => 1],
+            ['name' => 'Subcategory 7', 'slug' => 'subcategory-7', 'category_id' => $kitchen_home, 'status' => 1],
         ];
 
-        Subcategory::insert($home_gadgets_subs);
-        Subcategory::insert($health_beauty_subs);
-        Subcategory::insert($hot_offer_subs);
-        Subcategory::insert($kitchen_gadgets_subs);
-        Subcategory::insert($security_subs);
-        Subcategory::insert($all_kinds_of_rack_subs);
-        Subcategory::insert($footware_subs);
-        Subcategory::insert($cream_subs);
+        Subcategory::insert($mens_boys_subs);
+        Subcategory::insert($women_girl_subs);
+        Subcategory::insert($electronic_acc_subs);
+        Subcategory::insert($home_decor_subs);
+        Subcategory::insert($women_cloth_subs);
+        Subcategory::insert($electronics_subs);
+        Subcategory::insert($groceries_subs);
+        Subcategory::insert($kitchen_home_subs);
     }
 }

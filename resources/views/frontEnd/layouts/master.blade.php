@@ -214,8 +214,10 @@
                         <div class="col-sm-12">
                             <div class="logo-header">
                                 <div class="main-logo">
-                                    <a href="{{ route('home') }}"><img src="{{ asset($generalsetting->dark_logo) }}"
-                                            alt="" /></a>
+                                    <a href="{{ route('home') }}">
+                                        <img src="{{ asset($generalsetting->dark_logo) }}" alt="" />
+                                        <span>{{ $generalsetting->name }}</span>
+                                    </a>
                                 </div>
                                 <div class="main-search">
                                     <form>
@@ -751,10 +753,10 @@
                     if (res) {
                         $(".area").empty();
                         $(".area").append('<option value="">Select..</option>');
-                        $.each(res, function(key, value) {
-                            $(".area").append('<option value="' + key + '" >' + value +
-                                "</option>");
+                        $.each(res, function(index, area) {
+                            $(".area").append('<option value="' + area.id + '">' + area.area_name + '</option>');
                         });
+
                     } else {
                         $(".area").empty();
                     }

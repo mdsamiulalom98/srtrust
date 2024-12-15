@@ -8,6 +8,7 @@
     --primary-color: #031e2d;
     --secondary-color: #19cc44;
     --optional-color: #00a1f7;
+    --orange-color: #ffa500;
     --en-font: "Exo 2", sans-serif;
 }
 @font-face {
@@ -246,17 +247,19 @@ svg {
 
 .logo-area {
     padding: 0;
+    background-color: var(--orange-color);
 }
 
 .main-logo {
     height: 50px;
-    text-align: center;
 }
 
 .main-logo a {
-    display: block;
+    display: flex;
     width: 100%;
     height: 100%;
+    align-items: center;
+    gap: 10px;
 }
 
 .main-logo img {
@@ -264,6 +267,17 @@ svg {
     height: 100%;
     margin-top: 0;
     object-fit: contain !important;
+}
+.main-logo span {
+    color: var(--background-color);
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: var(--optional-color);
+    display: block;
+    padding: 4px 7px 1px;
+    border-radius: 5px;
+    line-height: 1.4;
 }
 
 .sticky.is-sticky {
@@ -274,8 +288,8 @@ svg {
 
 .logo-header {
     display: grid;
-    grid-template-columns: 130px 5fr 2fr;
-    grid-gap: 2rem;
+    grid-template-columns: 250px 5fr 2fr;
+    grid-gap: 1rem;
     align-items: center;
     justify-content: center;
     padding: 1rem 0;
@@ -383,7 +397,7 @@ svg {
     overflow: hidden;
     display: flex;
     border-radius: 4px;
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--background-color);
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
 }
@@ -392,20 +406,22 @@ svg {
     height: 100%;
     padding: 0 12px;
     font-size: 1rem;
-    background: #f7f7f7;
     flex: 1 1 auto;
+    background-color: var(--orange-color);
+}
+.main-search form input::placeholder {
+    color: var(--background-color);
 }
 
 .main-search form button {
     height: 100%;
-    background: #fff;
-    color: #ddd;
+    background: var(--orange-color);
 }
 
 .main-search form button svg {
     height: 20px;
     width: 35px;
-    color: #000000;
+    color: var(--background-color);
 }
 .mobile-nav li a {
     text-transform: capitalize;
@@ -446,6 +462,7 @@ svg {
 }
 .header-list-items a.login-button i {
     font-size: 1rem;
+    color: var(--background-color);
 }
 .header-list-items a.account-button {
     display: -webkit-box;
@@ -457,6 +474,7 @@ svg {
 .header-list-items a.wishlist-button svg {
     width: 24px;
     height: 24px;
+    color: var(--background-color);
 }
 .account-text-wrapper {
     display: flex;
@@ -465,12 +483,16 @@ svg {
 }
 span.account-login-span {
     position: relative;
+    color: var(--background-color);
+}
+span.account-signup-span {
+    color: var(--background-color);
 }
 span.account-login-span::after {
     height: 18px;
     content: "";
     position: absolute;
-    background-color: #b9b9b9;
+    background-color: var(--background-color);
     width: 2px;
     top: 2px;
     right: -11px;
@@ -482,6 +504,9 @@ span.account-login-span::after {
 
 .margin-shopping {
     margin-right: 10px;
+}
+.margin-shopping i {
+    color: var(--background-color);
 }
 
 .cart-svg {
@@ -1162,8 +1187,8 @@ footer {
 .order_now_btn:disabled {
     font-size: 18px;
     color: #fff;
-    background-color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
     border-radius: 3px;
     width: 50%;
     margin-left: 5px;
@@ -1188,8 +1213,8 @@ footer {
 .add_cart_btn,
 .add_cart_btn:disabled {
     color: #fff;
-    background-color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    background-color: var(--orange-color);
+    border: 1px solid var(--orange-color);
     border-radius: 0;
     width: 50%;
     height: 45px;
@@ -3684,8 +3709,8 @@ a.stock_out_btn {
 
 .product-cart-buttons {
     display: flex;
-    justify-content: space-between;
-    background-color: #ffffff;
+    justify-content: flex-start;
+    background-color: var(--secondary-color);
     box-shadow: 0 1px 2px 0 rgb(58 46 46 / 29%);
     border-radius: 5px;
     overflow: hidden;
@@ -3696,19 +3721,24 @@ a.stock_out_btn {
 }
 
 .product-cart-buttons button.addcartbutton {
-    background-color: #fff;
+    background-color: var(--secondary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     min-width: 40px;
+    color: var(--background-color);
 }
 
+.product-cart-buttons form {
+    flex: 1 1 auto;
+}
 .product-cart-buttons form button {
-    background-color: #fff;
-    min-width: 100px;
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 10px;
     font-size: 0.75rem;
 }
@@ -3718,14 +3748,16 @@ a.stock_out_btn {
 }
 button.cart-change-button {
     min-width: 36px;
-    background-color: #fff;
+    background-color: var(--secondary-color);
+    color: var(--background-color);
 }
 .cart-quantity {
     line-height: 36px;
-    width: 30px;
     text-align: center;
     font-size: 0.8rem;
     font-weight: 700;
+    flex: 1 1 auto;
+    color: var(--background-color);
 }
 
 .flash-sale-wrapper {

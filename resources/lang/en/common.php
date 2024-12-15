@@ -85,7 +85,7 @@ return [
     'shipping' => 'Shipping',
     'address' => 'Address',
     'district' => 'Disctict',
-    'area' => 'Upazila',
+    'area' => 'Area',
     'payment' => 'Payment Method',
     'orderplace' => 'Order Place',
     'sendernumber' => 'Sender Number',
@@ -154,5 +154,5 @@ return [
     'cashondelivery' => 'Cash On Delivery',
     'bkash' => 'bKash',
     'orderinfo' => 'Order Information',
-
+    'deliverycharge' => 'Delivery Charge'
 ];

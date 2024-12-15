@@ -449,16 +449,21 @@ class FrontendController extends Controller
 
     public function shipping_charge(Request $request)
     {
+        $subtotal = Cart::instance('shopping')->subtotal();
+        $subtotal = str_replace(',', '', $subtotal);
+        $subtotal = str_replace('.00', '', $subtotal);
         if ($request->id == NULL) {
             Session::put('shipping', 0);
         } else {
             $shipping = District::where(['id' => $request->id])->first();
-            $subtotal = Cart::instance('shopping')->subtotal();
-            $subtotal = str_replace(',', '', $subtotal);
-            $subtotal = str_replace('.00', '', $subtotal);
+            Session::put('area_id', $request->id);
             if ($shipping) {
-                $shipping_fee = $shipping->shippingfee;
-                Session::put('shipping', $shipping_fee);
+                if ((float)$subtotal >= 500) {
+                    Session::put('shipping', 0);
+                } else {
+                    $shipping_fee = $shipping->shippingfee;
+                    Session::put('shipping', $shipping_fee);
+                }
             } else {
                 Session::put('shipping', 0);
             }
@@ -480,7 +485,10 @@ class FrontendController extends Controller
     }
     public function districts(Request $request)
     {
-        $areas = District::where(['district' => $request->id])->pluck('area_name', 'id');
+        $areas = District::where('district', $request->id)
+            ->orderBy('area_name', 'ASC')
+            ->get(['id', 'area_name']);
+
         return response()->json($areas);
     }
     public function blogs()

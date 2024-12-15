@@ -85,7 +85,7 @@ return [
     'shipping' => 'শিপিং',
     'address' => 'ঠিকানা',
     'district' => 'জেলা',
-    'area' => 'উপজেলা',
+    'area' => 'এলাকা',
     'payment' => 'পেমেন্ট মাধ্যম',
     'orderplace' => 'অর্ডার করুন',
     'sendernumber' => 'প্রেরকের নম্বর',
@@ -153,4 +153,6 @@ return [
     'cashondelivery' => 'ক্যাশ অন ডেলিভারি',
     'bkash' => 'বিকাশ',
     'orderinfo' => 'অর্ডারের তথ্য',
+    'deliverycharge' => 'ডেলিভারি চার্জ',
+    'newproducts' => 'নতুন পণ্য',
 ];

@@ -31,7 +31,7 @@
                     <div class="col-sm-12">
                         <div class="form-group mb-3">
                             <label for="category_id" class="form-label">Category *</label>
-                             <select class="form-control select2-multiple @error('category_id') is-invalid @enderror" id="category_id" name="category_id" value="{{ old('category_id') }}" data-placeholder="Choose ..."required>
+                             <select class="form-control form-select select2-multiple @error('category_id') is-invalid @enderror" id="category_id" name="category_id" value="{{ old('category_id') }}" data-placeholder="Choose ..."required>
                                 <optgroup >
                                     <option value="">Choose..</option>
                                     @foreach($categories as $key=>$value)
@@ -53,6 +53,19 @@
                             <label for="name" class="form-label">Name *</label>
                             <input type="text" id="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $edit_data->name }}" id="name" required="">
                             @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <!-- col-end -->
+                    <div class="col-sm-12">
+                        <div class="form-group mb-3">
+                            <label for="name_bn" class="form-label">Name (Bangla) *</label>
+                            <input type="text" class="form-control @error('name_bn') is-invalid @enderror"
+                                name="name_bn" value="{{ $edit_data->name_bn }}" id="name_bn" required="">
+                            @error('name_bn')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

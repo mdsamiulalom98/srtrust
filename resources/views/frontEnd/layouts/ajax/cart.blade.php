@@ -2,9 +2,17 @@
     $subtotal = Cart::instance('shopping')->subtotal();
     $subtotal = str_replace(',', '', $subtotal);
     $subtotal = str_replace('.00', '', $subtotal);
-    $shipping = Session::get('shipping') ? Session::get('shipping') : 0;
-    $coupon = Session::get('coupon_amount') ? Session::get('coupon_amount') : 0;
-    $discount = Session::get('discount') ? Session::get('discount') : 0;
+    $area_id = Session::get('area_id') ?? 0;
+    $shipping_area = \App\Models\District::where('id', $area_id)->first();
+    if ((float) $subtotal >= 500) {
+        Session::put('shipping', 0);
+    } else {
+        $shipping_fee = $shipping_area->shippingfee ?? 0;
+        Session::put('shipping', $shipping_fee);
+    }
+    $shipping = Session::get('shipping') ?? 0;
+    $coupon = Session::get('coupon_amount') ?? 0;
+    $discount = Session::get('discount') ?? 0;
 @endphp
 <table class="cart_table table table-bordered table-striped text-center mb-0">
     <thead>
@@ -33,11 +41,9 @@
                             @endif
                             <div class="qty-cart vcart-qty">
                                 <div class="quantity">
-                                    <button class="minus cart_decrement"
-                                        data-id="{{ $value->rowId }}">-</button>
+                                    <button class="minus cart_decrement" data-id="{{ $value->rowId }}">-</button>
                                     <input type="text" value="{{ $value->qty }}" readonly />
-                                    <button class="plus cart_increment"
-                                        data-id="{{ $value->rowId }}">+</button>
+                                    <button class="plus cart_increment" data-id="{{ $value->rowId }}">+</button>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +104,7 @@
     </div>
 </form>
 
- <script src="{{asset('public/frontEnd/js/jquery-3.7.1.min.js')}}"></script>
+<script src="{{ asset('public/frontEnd/js/jquery-3.7.1.min.js') }}"></script>
 <!-- cart js start -->
 <script>
     $('.cart_store').on('click', function() {
