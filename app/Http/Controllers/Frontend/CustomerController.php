@@ -33,7 +33,7 @@ class CustomerController extends Controller
 
     function __construct()
     {
-        $this->middleware('customer', ['except' => ['register', 'customer_coupon', 'coupon_remove', 'store', 'verify', 'resendotp', 'account_verify', 'login', 'signin', 'logout', 'checkout', 'forgot_password', 'forgot_verify', 'forgot_reset', 'forgot_store', 'forgot_resend', 'order_save', 'order_success', 'order_track', 'order_track_result']]);
+        $this->middleware('customer', ['except' => ['register', 'customer_coupon', 'customer_coupon_json', 'coupon_remove', 'store', 'verify', 'resendotp', 'account_verify', 'login', 'signin', 'logout', 'checkout', 'forgot_password', 'forgot_verify', 'forgot_reset', 'forgot_store', 'forgot_resend', 'order_save', 'order_success', 'order_track', 'order_track_result']]);
     }
     public function customer_coupon(Request $request)
     {
@@ -72,6 +72,53 @@ class CustomerController extends Controller
             }
         }
     }
+    public function customer_coupon_json(Request $request)
+    {
+        $findcoupon = CouponCode::where('coupon_code', $request->coupon_code)->first();
+        if ($findcoupon == NULL) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Your entered promo code is not valid.',
+            ]);
+        } else {
+            $currentdata = date('Y-m-d');
+            $expiry_date = $findcoupon->expiry_date;
+
+            if ($currentdata <= $expiry_date) {
+                $totalcart = Cart::instance('shopping')->subtotal();
+                $totalcart = str_replace('.00', '', $totalcart);
+                $totalcart = str_replace(',', '', $totalcart);
+
+                if ($totalcart >= $findcoupon->buy_amount) {
+                    if ($findcoupon->offer_type == 1) {
+                        $discountammount = (($totalcart * $findcoupon->amount) / 100);
+                        Session::forget('coupon_amount');
+                        Session::put('coupon_amount', $discountammount);
+                        Session::put('coupon_used', $findcoupon->coupon_code);
+                    } else {
+                        Session::put('coupon_amount', $findcoupon->amount);
+                        Session::put('coupon_used', $findcoupon->coupon_code);
+                    }
+
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Success! Your promo code has been accepted.',
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'You need to buy a minimum of ' . $findcoupon->buy_amount . ' Taka to get the offer.',
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Oops! Sorry, your promo code has expired.',
+                ]);
+            }
+        }
+    }
+
     public function coupon_remove(Request $request)
     {
         Session::forget('coupon_amount');
@@ -114,7 +161,7 @@ class CustomerController extends Controller
         if ($auth_check) {
             if (Auth::guard('customer')->attempt(['phone' => $request->phone, 'password' => $request->password])) {
                 Toastr::success('You are login successfully', 'success!');
-                if($request->review == 1){
+                if ($request->review == 1) {
                     return redirect()->back();
                 }
                 if (Cart::instance('shopping')->count() > 0) {
@@ -319,14 +366,14 @@ class CustomerController extends Controller
         $select_charge = ShippingCharge::where(['status' => 1, 'website' => 1])->first();
         $bkash_gateway = PaymentGateway::where(['status' => 1, 'type' => 'bkash'])->first();
         $shurjopay_gateway = PaymentGateway::where(['status' => 1, 'type' => 'shurjopay'])->first();
-        
+
         if (Session::get('free_shipping') == 1) {
             Session::put('shipping', 0);
         } else {
             Session::put('shipping', $select_charge->amount);
         }
         $districts = District::distinct()->select('district')->orderBy('district', 'asc')->get();
-        return view('frontEnd.layouts.customer.checkout', compact('shippingcharge', 'bkash_gateway','shurjopay_gateway', 'districts'));
+        return view('frontEnd.layouts.customer.checkout', compact('shippingcharge', 'bkash_gateway', 'shurjopay_gateway', 'districts'));
     }
     public function order_save(Request $request)
     {
@@ -336,7 +383,7 @@ class CustomerController extends Controller
             'phone' => 'required',
             'address' => 'required',
         ]);
-        
+
         if (Cart::instance('shopping')->count() <= 0) {
             Toastr::error('Your shopping empty', 'Failed!');
             return redirect()->back();
@@ -352,13 +399,13 @@ class CustomerController extends Controller
         $subtotal = str_replace(',', '', $subtotal);
         $subtotal = str_replace('.00', '', $subtotal);
         $discount = Session::get('discount') + Session::get('coupon_amount');
-        
+
 
         $shipping_area  = District::where('id', $request->area)->first();
         $shippingfee = $shipping_area->shippingfee;
         $amount = ($subtotal + $shippingfee) - $discount;
         // return $shippingfee;
-        
+
         if (Auth::guard('customer')->user()) {
             $customer_id = Auth::guard('customer')->user()->id;
         } else {
@@ -390,7 +437,7 @@ class CustomerController extends Controller
         $order->order_status     = 1;
         $order->note             = $request->note;
         $order->save();
-       
+
         // shipping data save
         $shipping              =   new Shipping();
         // return $request->area;
@@ -398,7 +445,7 @@ class CustomerController extends Controller
         $shipping->customer_id =   $customer_id;
         $shipping->name        =   $request->name;
         $shipping->phone       =   $request->phone;
-        $shipping->address     =   $request->address??'';
+        $shipping->address     =   $request->address ?? '';
         $shipping->district    =   $request->district;
         $shipping->area        =   $shipping_area->area_name;
         // return $shipping;
@@ -499,7 +546,7 @@ class CustomerController extends Controller
 
         $orders = Order::where(['id' => $request->id, 'customer_id' => Auth::guard('customer')->user()->id])->with('orderdetails')->first();
         // return $orders;
-        return view('frontEnd.layouts.customer.invoice', compact('order','orders'));
+        return view('frontEnd.layouts.customer.invoice', compact('order', 'orders'));
     }
     public function pdfreader(Request $request)
     {
@@ -507,10 +554,10 @@ class CustomerController extends Controller
 
         $orders = Order::where(['id' => $request->id, 'customer_id' => Auth::guard('customer')->user()->id])->with('orderdetails')->first();
         // return $orders;
-        return view('frontEnd.layouts.customer.pdfreader', compact('order','orders'));
+        return view('frontEnd.layouts.customer.pdfreader', compact('order', 'orders'));
     }
-    
-    
+
+
     public function order_note(Request $request)
     {
         $order = Order::where(['id' => $request->id, 'customer_id' => Auth::guard('customer')->user()->id])->firstOrFail();

@@ -251,7 +251,7 @@
                                     <div class="cart-dialog" id="cart-qty">
                                         <a href="{{ route('customer.checkout') }}">
                                             <p class="margin-shopping">
-                                                <i class="fa-solid fa-cart-shopping"></i>
+                                                @include('frontEnd.layouts.svg.shopping')
                                                 @if (Cart::instance('shopping')->content()->count() > 0)
                                                     <span
                                                         class="cart-count-circle">{{ Cart::instance('shopping')->count() }}</span>
@@ -537,6 +537,33 @@
     <!-- quick view end -->
     <!-- cart js start -->
     <script>
+        $(document).on('click', '.voucher-copy-button', function(e) {
+            e.preventDefault();
+            var coupon = $(this).data("coupon");
+            // Collect data
+            let formData = {
+                coupon_code: coupon,
+                _token: '{{ csrf_token() }}'
+            };
+
+            // Send POST request via AJAX
+            $.ajax({
+                url: '{{ route("customer.coupon_json") }}', // Your Laravel route
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.status === 'success') {
+                        toastr.success(response.message);
+                    } else if (response.status === 'error') {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function (xhr) {
+                    toastr.error('An error occurred while processing your request.');
+                }
+            });
+        });
+
         $(document).on('click', '.addcartbutton', function(e) {
             e.preventDefault();
             var id = $(this).data("id");
@@ -754,7 +781,8 @@
                         $(".area").empty();
                         $(".area").append('<option value="">Select..</option>');
                         $.each(res, function(index, area) {
-                            $(".area").append('<option value="' + area.id + '">' + area.area_name + '</option>');
+                            $(".area").append('<option value="' + area.id + '">' + area
+                                .area_name + '</option>');
                         });
 
                     } else {

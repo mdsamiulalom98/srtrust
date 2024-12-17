@@ -273,7 +273,6 @@ svg {
     text-transform: uppercase;
     font-size: 1.2rem;
     font-weight: 600;
-    background-color: var(--optional-color);
     display: block;
     padding: 4px 7px 1px;
     border-radius: 5px;
@@ -288,7 +287,7 @@ svg {
 
 .logo-header {
     display: grid;
-    grid-template-columns: 250px 5fr 2fr;
+    grid-template-columns: 250px 6fr 3fr;
     grid-gap: 1rem;
     align-items: center;
     justify-content: center;
@@ -400,6 +399,7 @@ svg {
     border: 1px solid var(--background-color);
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
+    background-color: var(--background-color);
 }
 
 .main-search form input {
@@ -407,21 +407,21 @@ svg {
     padding: 0 12px;
     font-size: 1rem;
     flex: 1 1 auto;
-    background-color: var(--orange-color);
+    background-color: var(--background-color);
 }
 .main-search form input::placeholder {
-    color: var(--background-color);
+    color: var(--primary-color);
 }
 
 .main-search form button {
     height: 100%;
-    background: var(--orange-color);
+    background: var(--background-color);
 }
 
 .main-search form button svg {
     height: 20px;
     width: 35px;
-    color: var(--background-color);
+    color: var(--primary-color);
 }
 .mobile-nav li a {
     text-transform: capitalize;
@@ -502,13 +502,11 @@ span.account-login-span::after {
     font-size: 16px !important;
 }
 
-.margin-shopping {
-    margin-right: 10px;
-}
-.margin-shopping i {
+.margin-shopping svg {
     color: var(--background-color);
+    width: 24px;
+    height: 24px;
 }
-
 .cart-svg {
     height: 22px;
     width: 22px;
@@ -3695,12 +3693,14 @@ a.view_all {
 a.stock_out_btn {
     display: block;
     text-align: center;
-    background: #fff;
+    background: var(--background-color);
     padding: 6px 0;
     border-radius: 5px;
     font-size: 16px;
     box-shadow: 0 1px 2px 0 rgb(58 46 46 / 29%);
     height: 36px;
+    color: #a9a9a9;
+    cursor: no-drop;
 }
 
 .review_pro i.far.fa-star {
@@ -4024,4 +4024,103 @@ div#wishlist {
 
 .cart-info-wrapper .remove {
     flex: 0 0 40px;
+}
+
+.voucher-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.voucher-wrapper .right button[type="button"] {
+    border: 1px solid;
+    border-color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 50px;
+    min-width: 180px;
+    color: var(--secondary-color);
+    position: relative;
+}
+.voucher-wrapper .right button[type="button"]::after {
+    content: '\f0d7';
+    font-family: 'fontAwesome';
+
+}
+.voucher-wrapper .right .dropdown-menu {
+    padding: 10px;
+    border: none;
+    box-shadow: 0px 0px 10px -3px #2a2a2a;
+}
+.voucher-flex {
+    display: flex;
+    gap: 1rem;
+}
+
+ul.voucher-box {
+    display: flex;
+    flex-direction: column;
+}
+
+li.voucher-item {
+    margin-bottom: 10px;
+    background-color: hsl(134deg 78% 45% / 20%);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.voucher-flex .left {
+    min-width: 125px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    border-right: 2px dashed;
+    border-color: var(--secondary-color);
+    padding-right: 8px;
+}
+.voucher-flex img {
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+}
+p.voucher-upto {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+p.voucher-minbuy {
+    font-size: 0.6rem;
+}
+p.voucher-validity {
+    font-size: 0.6rem;
+}
+button.voucher-copy-button {
+    font-size: .75rem;
+    background-image: linear-gradient(113.53deg, var(--secondary-color) 28.77%, var(--optional-color) 105.5%);
+    padding: .25rem 1.2rem;
+    border-radius: 20px;
+    color: var(--background-color);
+    line-height: 16px;
+    padding-bottom: 7px;
+    margin-top: 5px;
+}
+
+button.voucher-copy-button[disabled] {
+    background-image: none;
+    background-color: #dbdbdb;
+    color: #000;
+    cursor: no-drop;
+}
+p.voucher-title {
+    font-size: 0.8rem;
+    text-align: center;
+}
+p.voucher-code {
+    border-style: dashed;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: var(--secondary-color);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-align: center;
 }

@@ -59,6 +59,7 @@ Route::get('locale/{locale}', function ($locale) {
 
 Route::post('/customer/coupon', [CustomerController::class, 'customer_coupon'])->name('customer.coupon');
 Route::post('/customer/coupon-remove', [CustomerController::class, 'coupon_remove'])->name('customer.coupon_remove');
+Route::post('apply-coupon', [CustomerController::class, 'customer_coupon_json'])->name('customer.coupon_json');
 
 Route::get('barcodess', [ProductController::class, 'barcodess'])->name('barcodess.update');
 

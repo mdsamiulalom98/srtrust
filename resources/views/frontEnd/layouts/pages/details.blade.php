@@ -138,6 +138,19 @@
                                                 <input type="hidden" name="id" value="{{ $details->id }}" />
                                                 <input type="hidden" name="category_id"
                                                     value="{{ $details->category_id }}" />
+                                                <div class="voucher-wrapper">
+                                                    <div class="left">
+                                                        <p>Voucher</p>
+                                                    </div>
+                                                    <div class="right">
+                                                        <button type="button" data-bs-toggle="dropdown">
+                                                            Voucher
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            @include('frontEnd.layouts.ajax.couponcodes')
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 @if ($productcolors->count() > 0)
                                                     <div class="pro-color">
                                                         <p class="color-title">Select Color </p>
@@ -206,7 +219,8 @@
                                                     <div class="col-sm-6">
                                                         @if ($details->type == 1)
                                                             <div class="pro_brand stock">
-                                                                <p><span>@lang('common.stock') : </span> {{ $lang == 'bn' ? $numto->bnNum($details->stock) : $details->stock }}
+                                                                <p><span>@lang('common.stock') : </span>
+                                                                    {{ $lang == 'bn' ? $numto->bnNum($details->stock) : $details->stock }}
                                                                 </p>
                                                             </div>
                                                         @else
@@ -258,16 +272,18 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
-                                    data-bs-target="#description-tab-pane" type="button"
-                                    role="tab"> @lang('common.description')</button>
+                                    data-bs-target="#description-tab-pane" type="button" role="tab">
+                                    @lang('common.description')</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="review-tab" data-bs-toggle="tab"
-                                    data-bs-target="#review-tab-pane" type="button" role="tab">@lang('common.reviews')</button>
+                                    data-bs-target="#review-tab-pane" type="button"
+                                    role="tab">@lang('common.reviews')</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="video-tab" data-bs-toggle="tab"
-                                    data-bs-target="#video-tab-pane" type="button" role="tab">@lang('common.video')</button>
+                                    data-bs-target="#video-tab-pane" type="button"
+                                    role="tab">@lang('common.video')</button>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -285,8 +301,7 @@
                                             <div class="review-head">
                                                 <div class="review-title">
                                                     <h4>@lang('common.reviews') ({{ $reviews->count() }})</h4>
-                                                    <p>@lang('common.whoownit')
-                                                    </p>
+                                                    <p>@lang('common.whoownit')</p>
                                                 </div>
                                                 <div class="review-btn">
                                                     <button type="button" data-bs-toggle="modal"
@@ -324,7 +339,8 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="review_modalLabel">@lang('common.givereview')</h1>
+                                                            <h1 class="modal-title fs-5" id="review_modalLabel">
+                                                                @lang('common.givereview')</h1>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
@@ -387,7 +403,8 @@
                                                                             value="1">
                                                                         <h6 class="mb-3">@lang('common.loginfirst')</h6>
                                                                         <div class="form-group mb-3">
-                                                                            <label for="phone" class="mb-3">@lang('common.mobilenumber') *</label>
+                                                                            <label for="phone"
+                                                                                class="mb-3">@lang('common.mobilenumber') *</label>
                                                                             <input type="number" id="phone"
                                                                                 class="form-control @error('phone') is-invalid @enderror"
                                                                                 placeholder="@lang('common.mobilenumber')"
@@ -401,7 +418,8 @@
                                                                         </div>
                                                                         <!-- col-end -->
                                                                         <div class="form-group mb-3">
-                                                                            <label for="password" class="mb-3">@lang('common.password')
+                                                                            <label for="password"
+                                                                                class="mb-3">@lang('common.password')
                                                                                 *</label>
                                                                             <input type="password" id="password"
                                                                                 class="form-control @error('password') is-invalid @enderror"
@@ -416,7 +434,8 @@
                                                                         </div>
                                                                         <!-- col-end -->
                                                                         <div class="form-group mb-3">
-                                                                            <button class="submit-btn"> @lang('common.login') </button>
+                                                                            <button class="submit-btn"> @lang('common.login')
+                                                                            </button>
                                                                         </div>
                                                                         <!-- col-end -->
                                                                     </form>
@@ -736,13 +755,13 @@
                             $('.add_cart_btn').prop('disabled', true);
                             $('.order_now_btn').prop('disabled', true);
                         }
-
-
                     }
                 });
             }
         });
     </script>
+
+
 
     <!--Microdata -->
     <script type="application/ld+json">

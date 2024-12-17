@@ -290,12 +290,10 @@ class FrontendController extends Controller
 
     public function details($slug)
     {
-
         $details = Product::where(['slug' => $slug, 'status' => 1])
             ->with('image', 'images', 'category', 'subcategory', 'childcategory', 'variable')
             ->withCount('variableimages', 'variable')
             ->firstOrFail();
-        // return $details;
         $products = Product::where(['category_id' => $details->category_id, 'status' => 1])
             ->with('image', 'variable')
             ->select('id', 'name', 'stock', 'slug', 'status', 'category_id', 'new_price', 'old_price', 'type')
@@ -317,35 +315,13 @@ class FrontendController extends Controller
             ->distinct()
             ->get();
 
-        // if (Session::get('recentview') == '') {
-        //     Session::put('recentview', []);
-        // }
-        // $newsession[] = $details->id;
-        // $oldsession   = array_reverse(Session::get('recentview'));
-        // $recentall    = array_merge($newsession, $oldsession);
-        // $recentall    = array_unique($recentall);
-        // $recentall    = array_reverse($recentall);
-        // if (count(Session::get('recentview')) > 9) {
-        //     array_shift($recentall);
-        // }
-        // Session::put('recentview', $recentall);
-        // if (Session::get('recentview')) {
-        //     $recent_products = Product::where(['status' => 1])
-        //         ->whereIn('products.id', Session::get('recentview'))
-        //         ->orderBy('id', 'DESC')
-        //         ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
-        //         ->with('variable')
-        //         ->withCount('variable')->get();
-        // } else {
-        //     $recent_products = [];
-        // }
-
         $recentView = Session::get('recentview', []);
         $recentView = array_unique(array_reverse(array_merge([$details->id], array_reverse($recentView))));
         if (count($recentView) > 9) {
             array_shift($recentView);
         }
         Session::put('recentview', $recentView);
+        $currentdate = date('Y-m-d');
         $recent_products = !empty($recentView)
             ? Product::where('status', 1)
             ->whereIn('id', $recentView)
@@ -355,9 +331,9 @@ class FrontendController extends Controller
             ->withCount('variable')
             ->get()
             : [];
+        $coupons = CouponCode::where('status', 1)->where('expiry_date', '>=', $currentdate)->get();
 
-
-        return view('frontEnd.layouts.pages.details', compact('details', 'products', 'shippingcharge', 'productcolors', 'productsizes', 'reviews', 'recent_products'));
+        return view('frontEnd.layouts.pages.details', compact('details', 'products', 'shippingcharge', 'productcolors', 'productsizes', 'reviews', 'recent_products', 'coupons'));
     }
     public function recent_view(Request $request)
     {
