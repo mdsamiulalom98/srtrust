@@ -12,6 +12,14 @@
                 <p>@php $discount=(((($value->old_price)-($value->new_price))*100) / ($value->old_price)) @endphp {{ number_format($discount, 1) }}% </p>
             </div>
         @endif
+        @if($value->campaign_id)
+        <div class="product-campaign-wrapper">
+            <p>
+                @include('frontEnd.layouts.svg.truck')
+                {{ $value->campaign->name ?? '' }}
+            </p>
+        </div>
+        @endif
     </div>
     <div class="pro_des">
         <div class="pro_name">

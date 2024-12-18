@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\TagManagerController;
 use App\Http\Controllers\Admin\CouponCodeController;
 use App\Http\Controllers\Admin\DistrictController;
+use App\Http\Controllers\Admin\CampaignProController;
 
 Auth::routes();
 
@@ -531,4 +532,15 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     Route::post('coupon-code/inactive', [CouponCodeController::class, 'inactive'])->name('couponcodes.inactive');
     Route::post('coupon-code/active', [CouponCodeController::class, 'active'])->name('couponcodes.active');
     Route::post('coupon-code/destroy', [CouponCodeController::class, 'destroy'])->name('couponcodes.destroy');
+
+    // pro campaign
+    Route::get('pro-campaign/manage', [CampaignProController::class,'index'])->name('proCampaign.index');
+    Route::get('pro-campaign/{id}/show', [CampaignProController::class,'show'])->name('proCampaign.show');
+    Route::get('pro-campaign/create', [CampaignProController::class,'create'])->name('proCampaign.create');
+    Route::post('pro-campaign/save', [CampaignProController::class,'store'])->name('proCampaign.store');
+    Route::get('pro-campaign/{id}/edit', [CampaignProController::class,'edit'])->name('proCampaign.edit');
+    Route::post('pro-campaign/update', [CampaignProController::class,'update'])->name('proCampaign.update');
+    Route::post('pro-campaign/inactive', [CampaignProController::class,'inactive'])->name('proCampaign.inactive');
+    Route::post('pro-campaign/active', [CampaignProController::class,'active'])->name('proCampaign.active');
+    Route::post('pro-campaign/destroy', [CampaignProController::class,'destroy'])->name('proCampaign.destroy');
 });

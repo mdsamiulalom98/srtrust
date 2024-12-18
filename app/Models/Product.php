@@ -18,6 +18,10 @@ class Product extends Model
     {
         return $this->hasOne(Productimage::class, 'product_id')->select('id', 'image', 'product_id');
     }
+    public function campaign()
+    {
+        return $this->belongsTo(Procampaign::class);
+    }
     public function images()
     {
         return $this->hasMany(Productimage::class, 'product_id')->select('id', 'image', 'product_id');

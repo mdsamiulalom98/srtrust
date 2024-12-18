@@ -93,33 +93,46 @@
                                     @enderror
                                 </div>
                             </div>
-                         <!-- col end -->
-                        <div class="col-sm-12 mb-3">
-                            <div class="form-group">
-                                <label for="meta_description" class="form-label">Meta Description </label>
-                                <textarea name="meta_description" rows="6"
-                                    class="summernote form-control @error('meta_description') is-invalid @enderror" ></textarea>
-                                @error('meta_description')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <!-- col end -->
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label for="meta_description" class="form-label">Meta Description </label>
+                                    <textarea name="meta_description" rows="6"
+                                        class="summernote form-control @error('meta_description') is-invalid @enderror"></textarea>
+                                    @error('meta_description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                       <!-- col end -->
-                        <div class="col-sm-12 mb-3">
-                            <div class="form-group">
-                                <label for="meta_keyword" class="form-label">Meta Keyword </label>
-                                <textarea name="meta_keyword" rows="6"
-                                    class="summernote form-control @error('meta_keyword') is-invalid @enderror" ></textarea>
-                                @error('meta_keyword')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <!-- col end -->
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label for="meta_keyword" class="form-label">Meta Keyword </label>
+                                    <textarea name="meta_keyword" rows="6"
+                                        class="summernote form-control @error('meta_keyword') is-invalid @enderror"></textarea>
+                                    @error('meta_keyword')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <!-- col end -->
+                            <!-- col end -->
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label for="min_shopping" class="form-label">Minimum Shopping Amount </label>
+                                    <input type="text" class="form-control @error('min_shopping') is-invalid @enderror"
+                                        name="min_shopping" value="{{ old('min_shopping') }}" id="min_shopping">
+                                    @error('min_shopping')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- col end -->
                             <div class="col-sm-6 mb-3">
                                 <div class="form-group">
                                     <label for="status" class="d-block">Status</label>

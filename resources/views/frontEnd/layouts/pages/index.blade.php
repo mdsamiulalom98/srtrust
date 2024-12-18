@@ -54,8 +54,12 @@
                                                         </a>
                                                         <ul class="vertical-child">
                                                             @foreach ($subcategory->childcategories as $key => $childcat)
-                                                                <li><a
-                                                                        href="{{ route('products', $childcat->slug) }}">{{ $childcat->name }}</a>
+                                                                <li><a href="{{ route('products', $childcat->slug) }}">
+                                                                    <div>
+                                                                        <img src="{{ asset($childcat->image) }}" alt="">
+                                                                        {{ $childcat->name }}
+                                                                    </div>
+                                                                    </a>
                                                                 </li>
                                                             @endforeach
                                                         </ul>

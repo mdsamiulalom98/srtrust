@@ -199,7 +199,7 @@
             <form>
                 <button><i data-feather="search"></i></button>
 
-                <input type="search" placeholder="Search Product..." value=""
+                <input type="search" placeholder="@lang('common.searchproduct')..." value=""
                     class="msearch_click msearch_keyword" name="keyword" />
             </form>
             <div class="search_result"></div>
@@ -222,7 +222,7 @@
                                 <div class="main-search">
                                     <form>
                                         <button><i data-feather="search"></i></button>
-                                        <input type="search" placeholder="Search Product..."
+                                        <input type="search" placeholder="@lang('common.searchproduct')..."
                                             class="search_keyword search_click" value="" name="keyword" />
                                     </form>
                                     <div class="search_result"></div>
@@ -263,11 +263,13 @@
                                                 <ul>
                                                     @foreach (Cart::instance('shopping')->content() as $key => $value)
                                                         <li>
-                                                            <a href=""><img
+                                                            <a href="{{ route('product', $value->options->slug) }}">
+                                                                <img
                                                                     src="{{ asset($value->options->image) }}"
-                                                                    alt="" /></a>
+                                                                    alt="" />
+                                                            </a>
                                                         </li>
-                                                        <li><a href="">{{ Str::limit($value->name, 30) }}</a>
+                                                        <li><a href="{{ route('product', $value->options->slug) }}">{{ Str::limit($value->name, 30) }}</a>
                                                         </li>
                                                         <li>Qty: {{ $value->qty }}</li>
                                                         <li>
@@ -484,9 +486,9 @@
 
     <div id="custom-modal"></div>
     <div id="page-overlay"></div>
-    <div id="loading">
+    {{-- <div id="loading">
         <div class="custom-loader"></div>
-    </div>
+    </div> --}}
     <script src="{{ asset('public/frontEnd/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('public/frontEnd/js/popper.min.js') }}"></script>
     <script src="{{ asset('public/frontEnd/js/bootstrap.min.js') }}"></script>
@@ -533,6 +535,25 @@
                 });
             }
         });
+
+        $('.cart_remove').on('click', function() {
+            var id = $(this).data('id');
+            if (id) {
+                $.ajax({
+                    type: "GET",
+                    data: {
+                        'id': id
+                    },
+                    url: "{{ route('cart.remove') }}",
+                    success: function(data) {
+                        if (data) {
+                            $(".cartlist").html(data);
+                            return cart_count();
+                        }
+                    }
+                });
+            }
+        });
     </script>
     <!-- quick view end -->
     <!-- cart js start -->
@@ -548,17 +569,17 @@
 
             // Send POST request via AJAX
             $.ajax({
-                url: '{{ route("customer.coupon_json") }}', // Your Laravel route
+                url: '{{ route('customer.coupon_json') }}', // Your Laravel route
                 type: 'POST',
                 data: formData,
-                success: function (response) {
+                success: function(response) {
                     if (response.status === 'success') {
                         toastr.success(response.message);
                     } else if (response.status === 'error') {
                         toastr.error(response.message);
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     toastr.error('An error occurred while processing your request.');
                 }
             });
@@ -576,10 +597,13 @@
                     url: "{{ url('add-to-cart') }}/" + id + "/" + qty,
                     dataType: "json",
                     success: function(data) {
-                        if (data) {
+                        if (data.success) {
                             toastr.success("Success", "Product add to cart successfully");
                             targetElement.html(data.updatedHtml);
                             return cart_count() + mobile_cart();
+                        }
+                        if (data.status == 'error') {
+                            toastr.error(data.status, data.message);
                         }
                     },
                 });
@@ -607,62 +631,6 @@
             }
         });
 
-        $(".cart_remove").on("click", function() {
-            var id = $(this).data("id");
-            if (id) {
-                $.ajax({
-                    type: "GET",
-                    data: {
-                        id: id
-                    },
-                    url: "{{ route('cart.remove') }}",
-                    success: function(data) {
-                        if (data) {
-                            $(".cartlist").html(data);
-                            return cart_count() + mobile_cart() + cart_summary();
-                        }
-                    },
-                });
-            }
-        });
-
-        $(".cart_increment").on("click", function() {
-            var id = $(this).data("id");
-            if (id) {
-                $.ajax({
-                    type: "GET",
-                    data: {
-                        id: id
-                    },
-                    url: "{{ route('cart.increment') }}",
-                    success: function(data) {
-                        if (data) {
-                            $(".cartlist").html(data);
-                            return cart_count() + mobile_cart();
-                        }
-                    },
-                });
-            }
-        });
-
-        $(".cart_decrement").on("click", function() {
-            var id = $(this).data("id");
-            if (id) {
-                $.ajax({
-                    type: "GET",
-                    data: {
-                        id: id
-                    },
-                    url: "{{ route('cart.decrement') }}",
-                    success: function(data) {
-                        if (data) {
-                            $(".cartlist").html(data);
-                            return cart_count() + mobile_cart();
-                        }
-                    },
-                });
-            }
-        });
 
         function cart_count() {
             $.ajax({

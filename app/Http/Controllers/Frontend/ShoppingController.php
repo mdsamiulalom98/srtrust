@@ -20,8 +20,22 @@ class ShoppingController extends Controller
             $rowId = $otherInstanceItems->firstWhere('id', $id)->rowId;
             Cart::instance('wishlist')->remove($rowId);
         }
+        $existingCampaignItem = Cart::instance('shopping')
+            ->content()
+            ->firstWhere('options.campaign_id', '!=', null);
+
+        $productInfo = DB::table('products')->where('id', $id)->select('id', 'name', 'new_price', 'old_price', 'slug', 'purchase_price', 'category_id', 'campaign_id')->first();
+        if ($existingCampaignItem) {
+            $campaignId = $existingCampaignItem->options->campaign_id;
+
+            if ($productInfo->campaign_id != $campaignId) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'You can only add products from the same campaign to your cart.',
+                ]);
+            }
+        }
         $qty = 1;
-        $productInfo = DB::table('products')->where('id', $id)->first();
         $productImage = DB::table('productimages')->where('product_id', $id)->first();
         $cartinfo = Cart::instance('shopping')->add([
             'id' => $productInfo->id,
@@ -35,8 +49,14 @@ class ShoppingController extends Controller
                 'slug' => $productInfo->slug,
                 'purchase_price' => $productInfo->purchase_price,
                 'category_id' => $productInfo->category_id,
+                'campaign_id' => $productInfo->campaign_id,
             ]
         ]);
+
+        Session::forget('shipping');
+        $shipping_fee = $productInfo->campaign->shippingfee ?? 0;
+        Session::put('shipping', $shipping_fee);
+
         $updatedHtml = view('frontEnd.layouts.partials.product_buttons', ['value' => $productInfo])->render();
 
         return response()->json([
@@ -48,7 +68,9 @@ class ShoppingController extends Controller
 
     public function cart_store(Request $request)
     {
-        $product = Product::select('id', 'name', 'slug', 'new_price', 'old_price', 'purchase_price', 'type', 'stock', 'category_id')->where(['id' => $request->id])->first();
+        $product = Product::select('id', 'name', 'slug', 'new_price', 'old_price', 'purchase_price', 'type', 'stock', 'category_id', 'campaign_id')->where(['id' => $request->id])->first();
+        $shipping_fee = $product->campaign->shippingfee ?? 0;
+
         $var_product = ProductVariable::where(['product_id' => $request->id, 'color' => $request->product_color, 'size' => $request->product_size])->first();
         if ($product->type == 0) {
             $purchase_price = $var_product ? $var_product->purchase_price : 0;
@@ -71,6 +93,17 @@ class ShoppingController extends Controller
             Toastr::error('Product stock limit over', 'Failed!');
             return back();
         }
+        $existingCampaignItem = Cart::instance('shopping')
+            ->content()
+            ->firstWhere('options.campaign_id', '!=', null);
+        if ($existingCampaignItem) {
+            $campaignId = $existingCampaignItem->options->campaign_id;
+
+            if ($product->campaign_id != $campaignId) {
+                Toastr::error('You can only add products from the same campaign to your cart.', 'Failed!');
+                return back();
+            }
+        }
 
         Cart::instance('shopping')->add([
             'id' => $product->id,
@@ -87,11 +120,13 @@ class ShoppingController extends Controller
                 'product_color' => $request->product_color,
                 'type' => $product->type,
                 'category_id' => $product->category_id,
-                'free_shipping' =>  0
+                'free_shipping' => 0,
+                'campaign_id' => $product->campaign_id ?? 0,
             ],
         ]);
-
-
+        Session::forget('shipping');
+        $shipping_fee = $product->campaign->shippingfee ?? 0;
+        Session::put('shipping', $shipping_fee);
 
         Toastr::success('Product successfully add to cart', 'Success!');
         if ($request->add_cart) {

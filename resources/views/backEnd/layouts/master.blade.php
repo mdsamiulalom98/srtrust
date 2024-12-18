@@ -481,6 +481,12 @@
                                             Coupon Code</a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('proCampaign.index') }}">
+                                            <i data-feather="minus"></i>
+                                            Product Campaign
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('admin.send_sms') }}"><i data-feather="minus"></i>
                                            SMS Marketing</a>
                                     </li>

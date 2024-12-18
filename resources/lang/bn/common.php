@@ -155,4 +155,5 @@ return [
     'orderinfo' => 'অর্ডারের তথ্য',
     'deliverycharge' => 'ডেলিভারি চার্জ',
     'newproducts' => 'নতুন পণ্য',
+    'searchproduct' => 'পণ্য খুঁজুন'
 ];

@@ -366,12 +366,12 @@ class CustomerController extends Controller
         $select_charge = ShippingCharge::where(['status' => 1, 'website' => 1])->first();
         $bkash_gateway = PaymentGateway::where(['status' => 1, 'type' => 'bkash'])->first();
         $shurjopay_gateway = PaymentGateway::where(['status' => 1, 'type' => 'shurjopay'])->first();
+        // Session::put('shipping', 0);
 
-        if (Session::get('free_shipping') == 1) {
-            Session::put('shipping', 0);
-        } else {
-            Session::put('shipping', $select_charge->amount);
-        }
+        // if (Session::get('free_shipping') == 1) {
+        //     Session::put('shipping', 0);
+        // } else {
+        // }
         $districts = District::distinct()->select('district')->orderBy('district', 'asc')->get();
         return view('frontEnd.layouts.customer.checkout', compact('shippingcharge', 'bkash_gateway', 'shurjopay_gateway', 'districts'));
     }

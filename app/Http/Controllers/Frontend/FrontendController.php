@@ -27,6 +27,7 @@ use App\Models\Order;
 use App\Models\Review;
 use App\Models\Brand;
 use App\Models\Blog;
+use App\Models\GeneralSetting;
 
 class FrontendController extends Controller
 {
@@ -39,7 +40,7 @@ class FrontendController extends Controller
 
         $hotdeal_top = Product::where(['status' => 1, 'topsale' => 1])
             ->orderBy('id', 'DESC')
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'category_id')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'category_id', 'campaign_id')
             ->with('variable', 'reviews')
             ->withCount('variable')
             ->limit(12)
@@ -48,14 +49,14 @@ class FrontendController extends Controller
 
         $allproducts = Product::where(['status' => 1])
             ->orderBy('id', 'DESC')
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'category_id')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'category_id', 'campaign_id')
             ->with('variable')
             ->withCount('variable', 'reviews')
             ->paginate(12);
 
         $new_arrivals = Product::where(['status' => 1])
             ->orderBy('id', 'DESC')
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'category_id')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'category_id', 'campaign_id')
             ->with('variable')
             ->withCount('variable', 'reviews')
             ->get();
@@ -96,7 +97,7 @@ class FrontendController extends Controller
     {
         $category = Category::where(['slug' => $slug, 'status' => 1])->first();
         $products = Product::where(['status' => 1, 'category_id' => $category->id])
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'category_id', 'stock')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'category_id', 'stock', 'campaign_id')
             ->withCount('variable')
             ->with('reviews', 'variable');
         $subcategories = Subcategory::where('category_id', $category->id)->get();
@@ -140,7 +141,7 @@ class FrontendController extends Controller
     {
         $subcategory = Subcategory::where(['slug' => $slug, 'status' => 1])->first();
         $products = Product::where(['status' => 1, 'subcategory_id' => $subcategory->id])
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'category_id', 'subcategory_id', 'stock')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'category_id', 'subcategory_id', 'stock', 'campaign_id')
             ->withCount('variable')
             ->with('reviews', 'variable');
         $childcategories = Childcategory::where('subcategory_id', $subcategory->id)->get();
@@ -182,7 +183,7 @@ class FrontendController extends Controller
             ->with('image', 'variable')
             ->withCount('variable')
             ->limit(6)
-            ->select('id', 'name', 'stock', 'slug')
+            ->select('id', 'name', 'stock', 'slug', 'campaign_id')
             ->get();
 
         return view('frontEnd.layouts.pages.subcategory', compact('subcategory', 'products', 'impproducts', 'childcategories', 'max_price', 'min_price'));
@@ -193,7 +194,7 @@ class FrontendController extends Controller
         $childcategory = Childcategory::where(['slug' => $slug, 'status' => 1])->first();
         $childcategories = Childcategory::where('subcategory_id', $childcategory->subcategory_id)->get();
         $products = Product::where(['status' => 1, 'childcategory_id' => $childcategory->id])->with('category')
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'category_id', 'subcategory_id', 'childcategory_id', 'stock')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'category_id', 'subcategory_id', 'childcategory_id', 'stock', 'campaign_id')
             ->withCount('variable')
             ->with('reviews', 'variable');
 
@@ -226,7 +227,7 @@ class FrontendController extends Controller
         $impproducts = Product::where(['status' => 1, 'topsale' => 1])
             ->with('image', 'reviews', 'variable')
             ->limit(6)
-            ->select('id', 'name', 'stock', 'slug')
+            ->select('id', 'name', 'stock', 'slug', 'campaign_id')
             ->get();
 
         return view('frontEnd.layouts.pages.childcategory', compact('childcategory', 'products', 'impproducts', 'min_price', 'max_price', 'childcategories'));
@@ -238,7 +239,7 @@ class FrontendController extends Controller
         $brand = Brand::where(['slug' => $slug, 'status' => 1])->first();
         $products = Product::where(['status' => 1, 'brand_id' => $brand->id])
             ->with('variable')
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'brand_id')->withCount('variable');
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'brand_id', 'campaign_id')->withCount('variable');
         if ($request->sort == 1) {
             $products = $products->orderBy('created_at', 'desc');
         } elseif ($request->sort == 2) {
@@ -263,7 +264,7 @@ class FrontendController extends Controller
 
         $products = Product::where(['status' => 1, 'topsale' => 1])
             ->orderBy('id', 'DESC')
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'campaign_id')
             ->with('variable')
             ->withCount('variable');
 
@@ -296,7 +297,7 @@ class FrontendController extends Controller
             ->firstOrFail();
         $products = Product::where(['category_id' => $details->category_id, 'status' => 1])
             ->with('image', 'variable')
-            ->select('id', 'name', 'stock', 'slug', 'status', 'category_id', 'new_price', 'old_price', 'type')
+            ->select('id', 'name', 'stock', 'slug', 'status', 'category_id', 'new_price', 'old_price', 'type', 'campaign_id')
             ->withCount('variable')
             ->get();
 
@@ -326,7 +327,7 @@ class FrontendController extends Controller
             ? Product::where('status', 1)
             ->whereIn('id', $recentView)
             ->orderByRaw('FIELD(id, ' . implode(',', $recentView) . ')')
-            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
+            ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'campaign_id')
             ->with(['variable'])
             ->withCount('variable')
             ->get()
@@ -341,7 +342,7 @@ class FrontendController extends Controller
             $products = Product::where(['status' => 1])
                 ->whereIn('products.id', Session::get('recentview'))
                 ->orderBy('id', 'DESC')
-                ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
+                ->select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'campaign_id')
                 ->with('variable')
                 ->withCount('variable');
 
@@ -388,7 +389,7 @@ class FrontendController extends Controller
     }
     public function livesearch(Request $request)
     {
-        $products = Product::select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
+        $products = Product::select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'campaign_id')
             ->withCount('variable')
             ->where('status', 1)
             ->with('image', 'variable');
@@ -407,7 +408,7 @@ class FrontendController extends Controller
     }
     public function search(Request $request)
     {
-        $products = Product::select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type')
+        $products = Product::select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'type', 'campaign_id')
             ->withCount('variable')
             ->where('status', 1)
             ->with('image', 'variable');
@@ -422,9 +423,10 @@ class FrontendController extends Controller
         return view('frontEnd.layouts.pages.search', compact('products', 'keyword'));
     }
 
-
     public function shipping_charge(Request $request)
     {
+        $min_amount = GeneralSetting::where('status', 1)->first();
+        
         $subtotal = Cart::instance('shopping')->subtotal();
         $subtotal = str_replace(',', '', $subtotal);
         $subtotal = str_replace('.00', '', $subtotal);
@@ -434,7 +436,7 @@ class FrontendController extends Controller
             $shipping = District::where(['id' => $request->id])->first();
             Session::put('area_id', $request->id);
             if ($shipping) {
-                if ((float)$subtotal >= 500) {
+                if ((float)$subtotal >= $min_amount->min_shopping) {
                     Session::put('shipping', 0);
                 } else {
                     $shipping_fee = $shipping->shippingfee;
@@ -483,7 +485,7 @@ class FrontendController extends Controller
 
         $campaign = Campaign::where('slug', $slug)->with('images')->first();
 
-        $product = Product::select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'purchase_price', 'type', 'stock')->where(['id' => $campaign->product_id])->first();
+        $product = Product::select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'purchase_price', 'type', 'stock', 'campaign_id')->where(['id' => $campaign->product_id])->first();
         // return $product;
         $productcolors = ProductVariable::where('product_id', $campaign->product_id)->where('stock', '>', 0)
             ->whereNotNull('color')
@@ -540,7 +542,7 @@ class FrontendController extends Controller
     }
     public function campaign_stock(Request $request)
     {
-        $product = Product::select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'purchase_price', 'type', 'stock')->where(['id' => $request->id])->first();
+        $product = Product::select('id', 'name', 'stock', 'slug', 'new_price', 'old_price', 'purchase_price', 'type', 'stock', 'campaign_id')->where(['id' => $request->id])->first();
 
         $variable = ProductVariable::where(['product_id' => $request->id, 'color' => $request->color, 'size' => $request->size])->first();
         $qty = 1;

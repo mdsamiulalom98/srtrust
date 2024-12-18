@@ -154,5 +154,6 @@ return [
     'cashondelivery' => 'Cash On Delivery',
     'bkash' => 'bKash',
     'orderinfo' => 'Order Information',
-    'deliverycharge' => 'Delivery Charge'
+    'deliverycharge' => 'Delivery Charge',
+    'searchproduct' => 'Search Product'
 ];

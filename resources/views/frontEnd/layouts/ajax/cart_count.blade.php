@@ -6,37 +6,35 @@
 @endphp
 <a href="{{ route('customer.checkout') }}">
     <p class="margin-shopping">
-        <i class="fa-solid fa-cart-shopping"></i>
+        @include('frontEnd.layouts.svg.shopping')
         @if (Cart::instance('shopping')->content()->count() > 0)
-        <span
-            class="cart-count-circle">{{ Cart::instance('shopping')->count() }}</span>
+            <span class="cart-count-circle">{{ Cart::instance('shopping')->count() }}</span>
         @endif
     </p>
 </a>
 @if (Cart::instance('shopping')->content()->count() > 0)
-<div class="cshort-summary">
-    <ul>
-        @foreach (Cart::instance('shopping')->content() as $key => $value)
-            <li>
-                <a href=""><img
-                        src="{{ asset($value->options->image) }}"
-                        alt="" /></a>
-            </li>
-            <li><a href="">{{ Str::limit($value->name, 30) }}</a>
-            </li>
-            <li>Qty: {{ $value->qty }}</li>
-            <li>
-                <p>৳{{ $value->price }}</p>
-                <button class="remove-cart cart_remove"
-                    data-id="{{ $value->rowId }}"><i
-                        data-feather="x"></i></button>
-            </li>
-        @endforeach
-    </ul>
-    <p><strong>SubTotal : ৳{{ $subtotal }}</strong></p>
-    <a href="{{ route('customer.checkout') }}" class="go_cart"
-        style="color:white !important;">Process To Order </a>
-</div>
+    <div class="cshort-summary">
+        <ul>
+            @foreach (Cart::instance('shopping')->content() as $key => $value)
+                <li>
+                    <a href="{{ route('product', $value->options->slug) }}">
+                        <img src="{{ asset($value->options->image) }}" alt="" />
+                    </a>
+                </li>
+                <li><a href="{{ route('product', $value->options->slug) }}">{{ Str::limit($value->name, 30) }}</a>
+                </li>
+                <li>Qty: {{ $value->qty }}</li>
+                <li>
+                    <p>৳{{ $value->price }}</p>
+                    <button class="remove-cart cart_remove" data-id="{{ $value->rowId }}"><i
+                            data-feather="x"></i></button>
+                </li>
+            @endforeach
+        </ul>
+        <p><strong>@lang('common.subtotal') : ৳{{ $subtotal }}</strong></p>
+        <a href="{{ route('customer.checkout') }}" class="go_cart" style="color:white !important;">@lang('common.processorder')
+        </a>
+    </div>
 @endif
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
